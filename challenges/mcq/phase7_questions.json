@@ -1,0 +1,227 @@
+[
+  {
+    "id": 1,
+    "section": "Model Serving",
+    "difficulty": "easy",
+    "question": "What is model serving?",
+    "options": [
+      "Deploying trained models to production to make predictions on new data",
+      "Training models on a server",
+      "Storing model weights in database",
+      "Visualizing model performance"
+    ],
+    "correct": 0,
+    "explanation": "Model serving makes trained models available via APIs or services for real-time/batch predictions.",
+    "xp": 50
+  },
+  {
+    "id": 2,
+    "section": "REST APIs",
+    "difficulty": "easy",
+    "question": "Which framework is commonly used to build REST APIs for ML models in Python?",
+    "options": [
+      "Flask or FastAPI - lightweight, easy to deploy",
+      "TensorFlow - for neural networks only",
+      "Pandas - for data manipulation",
+      "SQLAlchemy - for databases"
+    ],
+    "correct": 0,
+    "explanation": "Flask and FastAPI provide simple interfaces to wrap models as HTTP services.",
+    "xp": 50
+  },
+  {
+    "id": 3,
+    "section": "Docker Basics",
+    "difficulty": "easy",
+    "question": "What is Docker?",
+    "options": [
+      "Container technology that packages code, dependencies, and runtime into portable units",
+      "A data visualization library",
+      "A machine learning framework",
+      "A version control system"
+    ],
+    "correct": 0,
+    "explanation": "Docker containers ensure consistency across dev, test, and production environments.",
+    "xp": 50
+  },
+  {
+    "id": 4,
+    "section": "Containerization",
+    "difficulty": "medium",
+    "question": "What is the main advantage of containerizing an ML model?",
+    "options": [
+      "Same environment everywhere - no 'works on my machine' problems, easy scaling",
+      "Faster training",
+      "Higher accuracy",
+      "Smaller model size"
+    ],
+    "correct": 0,
+    "explanation": "Containers ensure code runs identically in dev, staging, and production.",
+    "xp": 100
+  },
+  {
+    "id": 5,
+    "section": "Kubernetes",
+    "difficulty": "medium",
+    "question": "What is Kubernetes used for?",
+    "options": [
+      "Orchestrating containers - scaling, load balancing, auto-restart, rolling updates",
+      "Training machine learning models",
+      "Data preprocessing",
+      "Hyperparameter tuning"
+    ],
+    "correct": 0,
+    "explanation": "Kubernetes automates container deployment, scaling, and management at scale.",
+    "xp": 100
+  },
+  {
+    "id": 6,
+    "section": "Model Monitoring",
+    "difficulty": "medium",
+    "question": "Why is monitoring important for production ML models?",
+    "options": [
+      "Detect data drift, model decay, and performance drops to trigger retraining",
+      "To visualize training loss",
+      "To improve hyperparameters",
+      "To increase model accuracy"
+    ],
+    "correct": 0,
+    "explanation": "Models degrade over time as data distribution shifts. Monitoring triggers retraining.",
+    "xp": 75
+  },
+  {
+    "id": 7,
+    "section": "Data Drift",
+    "difficulty": "medium",
+    "question": "What is data drift in production?",
+    "options": [
+      "Changes in input data distribution causing model performance degradation",
+      "Errors in data preprocessing",
+      "Model overfitting",
+      "Bias in training data"
+    ],
+    "correct": 0,
+    "explanation": "Data drift (e.g., new customer demographics) causes model accuracy to drop.",
+    "xp": 75
+  },
+  {
+    "id": 8,
+    "section": "Model Drift",
+    "difficulty": "medium",
+    "question": "What is model drift?",
+    "options": [
+      "Degradation of model performance due to changes in data or relationships over time",
+      "Training for too long",
+      "Using wrong features",
+      "Low regularization"
+    ],
+    "correct": 0,
+    "explanation": "Model drift includes both data drift and concept drift (changing relationships).",
+    "xp": 100
+  },
+  {
+    "id": 9,
+    "section": "A/B Testing",
+    "difficulty": "medium",
+    "question": "In A/B testing, why send traffic to both old and new models simultaneously?",
+    "options": [
+      "Compare real-world performance safely before full rollout, detect regressions",
+      "Train faster",
+      "Reduce computational cost",
+      "Improve model accuracy"
+    ],
+    "correct": 0,
+    "explanation": "A/B testing allows controlled comparison with statistical confidence.",
+    "xp": 75
+  },
+  {
+    "id": 10,
+    "section": "Canary Deployment",
+    "difficulty": "medium",
+    "question": "What is a canary deployment?",
+    "options": [
+      "Gradually roll out new model version to small % of traffic, monitor, then expand",
+      "Deploy all users at once",
+      "Test offline before production",
+      "Replace old model immediately"
+    ],
+    "correct": 0,
+    "explanation": "Canary deployments reduce risk by phased rollout with monitoring.",
+    "xp": 100
+  },
+  {
+    "id": 11,
+    "section": "Model Versioning",
+    "difficulty": "hard",
+    "question": "Why is model versioning critical in production?",
+    "options": [
+      "Track changes, enable rollback if issues arise, reproduce results, audit compliance",
+      "Faster prediction",
+      "Smaller model size",
+      "Higher accuracy guaranteed"
+    ],
+    "correct": 0,
+    "explanation": "Versioning allows rollback to previous model if new version degrades performance.",
+    "xp": 150
+  },
+  {
+    "id": 12,
+    "section": "Feature Store",
+    "difficulty": "hard",
+    "question": "What is a feature store?",
+    "options": [
+      "Centralized repository for computed features - eliminates training/serving skew",
+      "Database for storing data",
+      "Cache for predictions",
+      "Version control system"
+    ],
+    "correct": 0,
+    "explanation": "Feature stores ensure same features computed during training and serving.",
+    "xp": 150
+  },
+  {
+    "id": 13,
+    "section": "Training/Serving Skew",
+    "difficulty": "hard",
+    "question": "What is training/serving skew and why is it problematic?",
+    "options": [
+      "Differences in feature computation between train (offline) and serve (online) causing performance drop",
+      "Using different models for train and test",
+      "Imbalanced training data",
+      "Data preprocessing errors"
+    ],
+    "correct": 0,
+    "explanation": "Example: Average of last 7 days computed differently in training vs serving.",
+    "xp": 125
+  },
+  {
+    "id": 14,
+    "section": "Retraining Strategy",
+    "difficulty": "hard",
+    "question": "What triggers automated retraining of a model?",
+    "options": [
+      "Scheduled (daily/weekly) or event-driven (drift detected, performance threshold crossed)",
+      "Manual retraining only",
+      "When dataset size doubles",
+      "When accuracy drops 1%"
+    ],
+    "correct": 0,
+    "explanation": "Automated triggers prevent stale models from degrading predictions.",
+    "xp": 125
+  },
+  {
+    "id": 15,
+    "section": "Production Checklist",
+    "difficulty": "hard",
+    "question": "What should be in a production ML checklist?",
+    "options": [
+      "Model versioning, API monitoring, data drift detection, rollback plan, tests, documentation",
+      "High accuracy only",
+      "Fast predictions only",
+      "Minimal dependencies"
+    ],
+    "correct": 0,
+    "explanation": "Production requires robustness beyond just accuracy.",
+    "xp": 125
+  }
+]

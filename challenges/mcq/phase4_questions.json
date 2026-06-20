@@ -1,0 +1,212 @@
+[
+  {
+    "id": 1,
+    "section": "Regression",
+    "difficulty": "easy",
+    "question": "What does the R² metric measure in regression?",
+    "options": [
+      "A) The proportion of variance explained by the model",
+      "B) The average error magnitude",
+      "C) The number of features used"
+    ],
+    "correct": "A",
+    "explanation": "R² (R-squared) represents the proportion of the variance in the dependent variable that is explained by the model. It ranges from 0 to 1, with 1 being a perfect fit.",
+    "xp": 50
+  },
+  {
+    "id": 2,
+    "section": "Classification",
+    "difficulty": "easy",
+    "question": "In classification, what does precision measure?",
+    "options": [
+      "A) The ratio of true positives to all positive predictions",
+      "B) The ratio of true positives to all actual positives",
+      "C) The overall accuracy of the model"
+    ],
+    "correct": "A",
+    "explanation": "Precision = TP / (TP + FP). It answers: 'Of the items we predicted as positive, how many were correct?'",
+    "xp": 50
+  },
+  {
+    "id": 3,
+    "section": "Ensemble",
+    "difficulty": "easy",
+    "question": "What is the main idea behind ensemble methods?",
+    "options": [
+      "A) Combining multiple models to improve performance",
+      "B) Using a single large model",
+      "C) Reducing the number of features"
+    ],
+    "correct": "A",
+    "explanation": "Ensemble methods combine predictions from multiple models. The intuition is that diverse models together often perform better than any single model.",
+    "xp": 50
+  },
+  {
+    "id": 4,
+    "section": "Regression",
+    "difficulty": "medium",
+    "question": "When would you use Ridge regression over ordinary least squares linear regression?",
+    "options": [
+      "A) When features are highly correlated (multicollinearity)",
+      "B) When you have very few samples",
+      "C) When all features are independent"
+    ],
+    "correct": "A",
+    "explanation": "Ridge regression adds L2 regularization (penalty on squared coefficients) which helps when features are correlated and prevents overfitting.",
+    "xp": 75
+  },
+  {
+    "id": 5,
+    "section": "Regression",
+    "difficulty": "medium",
+    "question": "What is the difference between Ridge (L2) and Lasso (L1) regularization?",
+    "options": [
+      "A) Lasso can shrink coefficients to exactly zero, Ridge cannot",
+      "B) Ridge is always better than Lasso",
+      "C) They are identical"
+    ],
+    "correct": "A",
+    "explanation": "Lasso (L1) can shrink coefficients to exactly zero (feature selection), while Ridge (L2) shrinks but rarely to zero. Use Lasso for feature selection, Ridge for multicollinearity.",
+    "xp": 100
+  },
+  {
+    "id": 6,
+    "section": "Classification",
+    "difficulty": "medium",
+    "question": "What metric should you prioritize when dealing with imbalanced data (e.g., 95% negative, 5% positive)?",
+    "options": [
+      "A) F1-score or ROC AUC",
+      "B) Accuracy",
+      "C) Precision only"
+    ],
+    "correct": "A",
+    "explanation": "Accuracy is misleading on imbalanced data (can be 95% accurate by always predicting negative). F1 or ROC AUC better capture model quality.",
+    "xp": 100
+  },
+  {
+    "id": 7,
+    "section": "Classification",
+    "difficulty": "medium",
+    "question": "What does recall measure in binary classification?",
+    "options": [
+      "A) TP / (TP + FN) — of actual positives, how many did we catch?",
+      "B) TP / (TP + FP) — of predicted positives, how many were correct?",
+      "C) (TP + TN) / total — overall accuracy"
+    ],
+    "correct": "A",
+    "explanation": "Recall = TP / (TP + FN). It answers: 'Of the actual positive cases, how many did we identify?' High recall is crucial when missing positives is costly (disease detection).",
+    "xp": 75
+  },
+  {
+    "id": 8,
+    "section": "Classification",
+    "difficulty": "medium",
+    "question": "Why would you use a decision tree classifier?",
+    "options": [
+      "A) Interpretability, handling non-linear relationships, no feature scaling needed",
+      "B) Always best accuracy",
+      "C) Works well with very small datasets"
+    ],
+    "correct": "A",
+    "explanation": "Decision trees are interpretable (easy to explain decisions), capture non-linearity, and don't need feature scaling. They can overfit, so depth control is important.",
+    "xp": 75
+  },
+  {
+    "id": 9,
+    "section": "Classification",
+    "difficulty": "medium",
+    "question": "What is a key difference between Random Forest and a single Decision Tree?",
+    "options": [
+      "A) Random Forest uses bagging (multiple trees on data subsets) to reduce variance",
+      "B) Random Forest is always faster",
+      "C) They are identical"
+    ],
+    "correct": "A",
+    "explanation": "Random Forest grows multiple independent trees on bootstrap samples and averages their predictions, reducing variance and overfitting compared to a single tree.",
+    "xp": 100
+  },
+  {
+    "id": 10,
+    "section": "Ensemble",
+    "difficulty": "medium",
+    "question": "What does 'soft voting' mean in a voting classifier?",
+    "options": [
+      "A) Average the probability predictions from each model",
+      "B) Use the majority class vote",
+      "C) Remove difficult predictions"
+    ],
+    "correct": "A",
+    "explanation": "Soft voting averages the probability predictions (predict_proba) from each base model. Hard voting uses the majority class vote.",
+    "xp": 75
+  },
+  {
+    "id": 11,
+    "section": "Ensemble",
+    "difficulty": "medium",
+    "question": "What is a key advantage of Gradient Boosting over Random Forest?",
+    "options": [
+      "A) Sequential error correction often achieves better performance on complex data",
+      "B) Faster training time",
+      "C) No hyperparameter tuning needed"
+    ],
+    "correct": "A",
+    "explanation": "Gradient Boosting builds trees sequentially to correct previous errors, often achieving state-of-the-art results. Trade-off: slower training, more hyperparameters to tune.",
+    "xp": 100
+  },
+  {
+    "id": 12,
+    "section": "Metrics",
+    "difficulty": "hard",
+    "question": "What does ROC AUC measure and when is it superior to accuracy?",
+    "options": [
+      "A) Area under the curve of TPR vs FPR; better for imbalanced/threshold-independent evaluation",
+      "B) The proportion of correct predictions",
+      "C) The speed of the model"
+    ],
+    "correct": "A",
+    "explanation": "ROC AUC is threshold-independent and works well for imbalanced data and ranking models. Accuracy can be misleading when classes are imbalanced.",
+    "xp": 125
+  },
+  {
+    "id": 13,
+    "section": "Advanced",
+    "difficulty": "hard",
+    "question": "In GridSearchCV with a pipeline, why is it important to include preprocessing steps?",
+    "options": [
+      "A) Prevents data leakage by fitting scalers/transformers on training data only",
+      "B) Makes the code shorter",
+      "C) Reduces computation time"
+    ],
+    "correct": "A",
+    "explanation": "Including preprocessing in the pipeline ensures the scaler/transformer is fit only on training data within each CV fold, preventing data leakage which inflates performance metrics.",
+    "xp": 150
+  },
+  {
+    "id": 14,
+    "section": "Regression",
+    "difficulty": "hard",
+    "question": "When comparing MAE vs RMSE, when would RMSE be more useful?",
+    "options": [
+      "A) When outliers exist and you want to penalize them more heavily",
+      "B) When outliers don't matter",
+      "C) They are always equivalent"
+    ],
+    "correct": "A",
+    "explanation": "RMSE (Root Mean Squared Error) penalizes large errors more (due to squaring), making it useful when outliers are important to minimize. MAE treats all errors equally.",
+    "xp": 125
+  },
+  {
+    "id": 15,
+    "section": "Advanced",
+    "difficulty": "hard",
+    "question": "How does feature importance from tree models help with model interpretation?",
+    "options": [
+      "A) Identifies which features contribute most to predictions, aiding debugging and simplification",
+      "B) Always picks the best model",
+      "C) Reduces training time"
+    ],
+    "correct": "A",
+    "explanation": "Feature importance shows which features the model relies on most. High importance on unexpected features signals data quality issues or feature engineering needs.",
+    "xp": 150
+  }
+]

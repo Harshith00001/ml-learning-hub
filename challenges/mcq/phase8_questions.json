@@ -1,0 +1,154 @@
+{
+  "phase8_advanced_topics": [
+    {
+      "id": 1,
+      "section": "8.1",
+      "difficulty": "Medium",
+      "question": "Which method allows incremental training in scikit-learn?",
+      "options": [
+        "A) fit()",
+        "B) transform()",
+        "C) partial_fit()",
+        "D) predict()"
+      ],
+      "correct": "C",
+      "explanation": "`partial_fit()` enables incremental learning for estimators that support batch-by-batch updates.",
+      "xp": 75
+    },
+    {
+      "id": 2,
+      "section": "8.1",
+      "difficulty": "Medium",
+      "question": "What is a key benefit of MiniBatchKMeans for large datasets?",
+      "options": [
+        "A) It uses full-batch updates for exact centroids",
+        "B) It clusters data in small batches to save memory",
+        "C) It only works with categorical data",
+        "D) It always produces hierarchical clusters"
+      ],
+      "correct": "B",
+      "explanation": "MiniBatchKMeans processes data in small batches to reduce memory usage and scale clustering.",
+      "xp": 75
+    },
+    {
+      "id": 3,
+      "section": "8.2",
+      "difficulty": "Medium",
+      "question": "What does permutation importance measure?",
+      "options": [
+        "A) The impact of a feature when its values are shuffled",
+        "B) The model's training time",
+        "C) The variance of predictor coefficients",
+        "D) The number of trees in an ensemble"
+      ],
+      "correct": "A",
+      "explanation": "Permutation importance measures feature impact by shuffling values and observing score degradation.",
+      "xp": 75
+    },
+    {
+      "id": 4,
+      "section": "8.2",
+      "difficulty": "Hard",
+      "question": "Which tool is model-agnostic and can explain any fitted estimator?",
+      "options": [
+        "A) SHAP",
+        "B) fit_transform",
+        "C) GridSearchCV",
+        "D) StandardScaler"
+      ],
+      "correct": "A",
+      "explanation": "SHAP is model-agnostic and provides explanations for any estimator by assigning contributions to feature values.",
+      "xp": 100
+    },
+    {
+      "id": 5,
+      "section": "8.3",
+      "difficulty": "Medium",
+      "question": "Which methods should a custom scikit-learn transformer implement?",
+      "options": [
+        "A) fit, transform, get_params",
+        "B) fit_transform, predict, score",
+        "C) partial_fit, predict, set_params",
+        "D) transform, predict_proba, fit"
+      ],
+      "correct": "A",
+      "explanation": "Custom transformers should implement fit, transform, and get_params for pipeline compatibility.",
+      "xp": 75
+    },
+    {
+      "id": 6,
+      "section": "8.3",
+      "difficulty": "Hard",
+      "question": "What does check_estimator validate for a custom estimator?",
+      "options": [
+        "A) That it works with NumPy arrays and follows the scikit-learn API",
+        "B) That it converges to optimal accuracy",
+        "C) That it is serialized correctly",
+        "D) That it uses a Pipeline"
+      ],
+      "correct": "A",
+      "explanation": "check_estimator validates that a custom estimator correctly implements the scikit-learn interface and works with NumPy arrays.",
+      "xp": 75
+    },
+    {
+      "id": 7,
+      "section": "8.1",
+      "difficulty": "Hard",
+      "question": "Why is out-of-core learning useful for very large datasets?",
+      "options": [
+        "A) It trains models faster by using all features at once",
+        "B) It transforms categorical data automatically",
+        "C) It processes data in small chunks without loading everything into memory",
+        "D) It only works with GPU-accelerated algorithms"
+      ],
+      "correct": "C",
+      "explanation": "Out-of-core learning processes data in batches so it can train on datasets that do not fit in memory.",
+      "xp": 100
+    },
+    {
+      "id": 8,
+      "section": "8.2",
+      "difficulty": "Medium",
+      "question": "What is a practical reason to use feature importance in production?",
+      "options": [
+        "A) To reduce disk I/O",
+        "B) To identify important features for debugging and drift detection",
+        "C) To speed up training",
+        "D) To select the scoring metric"
+      ],
+      "correct": "B",
+      "explanation": "Feature importance helps identify important features for debugging and drift detection.",
+      "xp": 75
+    },
+    {
+      "id": 9,
+      "section": "8.3",
+      "difficulty": "Medium",
+      "question": "Which pipeline component is required for GridSearchCV compatibility?",
+      "options": [
+        "A) fit_transform",
+        "B) get_params and set_params",
+        "C) predict_proba only",
+        "D) transform only"
+      ],
+      "correct": "B",
+      "explanation": "get_params and set_params are required for parameter search compatibility with GridSearchCV.",
+      "xp": 75
+    },
+    {
+      "id": 10,
+      "section": "8.1",
+      "difficulty": "Hard",
+      "question": "Which estimator is designed for incremental updates on streaming data?",
+      "options": [
+        "A) KNeighborsClassifier",
+        "B) SGDClassifier",
+        "C) RandomForestClassifier",
+        "D) GaussianNB"
+      ],
+      "correct": "B",
+      "explanation": "SGDClassifier supports incremental training through partial_fit and is useful for streaming data.",
+      "xp": 100
+    }
+  ]
+}

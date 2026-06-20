@@ -1,0 +1,152 @@
+[
+  {
+    "id": 1,
+    "title": "Model Serialization with Joblib",
+    "difficulty": "easy",
+    "description": "Train a simple model and save it to disk using joblib, then load it back and verify predictions match.",
+    "starter_code": "from sklearn.datasets import load_iris\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.model_selection import train_test_split\nimport joblib\n\ndata = load_iris()\nX, y = data.data, data.target\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\nmodel = LogisticRegression(max_iter=1000)\nmodel.fit(X_train, y_train)\n\n# TODO: save the model to 'iris_model.joblib' and then load it back\n# TODO: use loaded model to predict on X_test and print the first 5 predictions\n",
+    "solution": "from sklearn.datasets import load_iris\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.model_selection import train_test_split\nimport joblib\n\ndata = load_iris()\nX, y = data.data, data.target\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\nmodel = LogisticRegression(max_iter=1000)\nmodel.fit(X_train, y_train)\n\njoblib.dump(model, 'iris_model.joblib')\nloaded_model = joblib.load('iris_model.joblib')\npred = loaded_model.predict(X_test)\nprint(pred[:5])\n",
+    "hints": [
+      "Use joblib.dump(model, filename) to save the model",
+      "Use joblib.load(filename) to load it back",
+      "Verify predictions using the loaded model",
+      "Ensure predictions are generated on the same test set"
+    ],
+    "xp": 75
+  },
+  {
+    "id": 2,
+    "title": "Build a FastAPI Model Endpoint",
+    "difficulty": "easy",
+    "description": "Create a simple FastAPI route that accepts feature data and returns a prediction from a pre-trained model.",
+    "starter_code": "from fastapi import FastAPI\nfrom pydantic import BaseModel\nimport joblib\n\napp = FastAPI()\n\nclass InputData(BaseModel):\n    sepal_length: float\n    sepal_width: float\n    petal_length: float\n    petal_width: float\n\n# TODO: load model from 'iris_model.joblib'\n# TODO: implement /predict route that returns a class prediction\n",
+    "solution": "from fastapi import FastAPI\nfrom pydantic import BaseModel\nimport joblib\n\napp = FastAPI()\n\nclass InputData(BaseModel):\n    sepal_length: float\n    sepal_width: float\n    petal_length: float\n    petal_width: float\n\nmodel = joblib.load('iris_model.joblib')\n\n@app.post('/predict')\ndef predict(data: InputData):\n    features = [[data.sepal_length, data.sepal_width, data.petal_length, data.petal_width]]\n    prediction = model.predict(features)[0]\n    return {'prediction': int(prediction)}\n",
+    "hints": [
+      "Use joblib.load to load the serialized model",
+      "FastAPI routes can return dictionaries as JSON responses",
+      "Wrap input features in a list of lists for model.predict",
+      "Use int() to convert numpy types to native Python before JSON serialization"
+    ],
+    "xp": 75
+  },
+  {
+    "id": 3,
+    "title": "Write a Dockerfile for a Model Service",
+    "difficulty": "medium",
+    "description": "Write a Dockerfile that installs dependencies and exposes a FastAPI model serving app.",
+    "starter_code": "# Dockerfile\n# TODO: write Dockerfile contents here\n\n# Example base image\n# FROM python:3.11-slim\n# WORKDIR /app\n# COPY requirements.txt .\n# RUN pip install -r requirements.txt\n# COPY . .\n# CMD [\"uvicorn\", \"main:app\", \"--host\", \"0.0.0.0\", \"--port\", \"8000\"]\n",
+    "solution": "FROM python:3.11-slim\nWORKDIR /app\nCOPY requirements.txt .\nRUN pip install --no-cache-dir -r requirements.txt\nCOPY . .\nEXPOSE 8000\nCMD [\"uvicorn\", \"main:app\", \"--host\", \"0.0.0.0\", \"--port\", \"8000\"]\n",
+    "hints": [
+      "Use a slim Python base image",
+      "Install dependencies from requirements.txt",
+      "Copy source files into the container working directory",
+      "Expose the port uvicorn will listen on"
+    ],
+    "xp": 100
+  },
+  {
+    "id": 4,
+    "title": "Experiment Tracking with MLflow",
+    "difficulty": "medium",
+    "description": "Log model parameters, metrics, and artifacts using MLflow during training.",
+    "starter_code": "import mlflow\nfrom sklearn.datasets import load_iris\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.metrics import accuracy_score\n\ndata = load_iris()\nX, y = data.data, data.target\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\n\nmlflow.start_run()\n# TODO: log hyperparameters and model metrics\nmodel = LogisticRegression(max_iter=1000)\nmodel.fit(X_train, y_train)\ny_pred = model.predict(X_test)\nacc = accuracy_score(y_test, y_pred)\n# TODO: log accuracy as metric\nmlflow.end_run()\n",
+    "solution": "import mlflow\nfrom sklearn.datasets import load_iris\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.metrics import accuracy_score\n\ndata = load_iris()\nX, y = data.data, data.target\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\n\nmlflow.start_run()\nmlflow.log_param('model', 'LogisticRegression')\nmlflow.log_param('max_iter', 1000)\nmodel = LogisticRegression(max_iter=1000)\nmodel.fit(X_train, y_train)\ny_pred = model.predict(X_test)\nacc = accuracy_score(y_test, y_pred)\nmlflow.log_metric('accuracy', acc)\nmlflow.sklearn.log_model(model, 'model')\nmlflow.end_run()\n",
+    "hints": [
+      "Use mlflow.start_run() and mlflow.end_run()",
+      "Log parameters with mlflow.log_param and metrics with mlflow.log_metric",
+      "Save the trained model with mlflow.sklearn.log_model",
+      "Set a descriptive model name or run tag"
+    ],
+    "xp": 125
+  },
+  {
+    "id": 5,
+    "title": "Kubernetes Deployment Manifest",
+    "difficulty": "medium",
+    "description": "Write a Kubernetes deployment YAML for the model service and expose it with a service resource.",
+    "starter_code": "# deployment.yaml\n# TODO: write deployment manifest here\n\n# Example structure:\n# apiVersion: apps/v1\n# kind: Deployment\n# metadata:\n#   name: ml-model-deployment\n# spec:\n#   replicas: 2\n#   selector:\n#     matchLabels:\n#       app: ml-model\n#   template:\n#     metadata:\n#       labels:\n#         app: ml-model\n#     spec:\n#       containers:\n#       - name: ml-model\n#         image: your-image\n#         ports:\n#         - containerPort: 8000\n",
+    "solution": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ml-model-deployment\nspec:\n  replicas: 2\n  selector:\n    matchLabels:\n      app: ml-model\n  template:\n    metadata:\n      labels:\n        app: ml-model\n    spec:\n      containers:\n      - name: ml-model\n        image: your-image\n        ports:\n        - containerPort: 8000\n---\napiVersion: v1\nkind: Service\nmetadata:\n  name: ml-model-service\nspec:\n  selector:\n    app: ml-model\n  ports:\n  - protocol: TCP\n    port: 80\n    targetPort: 8000\n  type: ClusterIP\n",
+    "hints": [
+      "Define a Deployment with replicas and selector labels",
+      "Use containerPort 8000 for a FastAPI app",
+      "Create a Service resource to expose the deployment",
+      "Use ClusterIP or LoadBalancer depending on environment"
+    ],
+    "xp": 125
+  },
+  {
+    "id": 6,
+    "title": "Monitoring Metrics with Prometheus",
+    "difficulty": "medium",
+    "description": "Add basic Prometheus metrics instrumentation to a model service and expose /metrics endpoint.",
+    "starter_code": "from prometheus_client import Counter, generate_latest, CONTENT_TYPE_LATEST\nfrom fastapi import FastAPI\n\napp = FastAPI()\nREQUEST_COUNTER = Counter('model_requests_total', 'Total model requests')\n\n@app.get('/predict')\ndef predict():\n    REQUEST_COUNTER.inc()\n    return {'prediction': 0}\n\n# TODO: add /metrics endpoint to expose Prometheus metrics\n",
+    "solution": "from prometheus_client import Counter, generate_latest, CONTENT_TYPE_LATEST\nfrom fastapi import FastAPI, Response\n\napp = FastAPI()\nREQUEST_COUNTER = Counter('model_requests_total', 'Total model requests')\n\n@app.get('/predict')\ndef predict():\n    REQUEST_COUNTER.inc()\n    return {'prediction': 0}\n\n@app.get('/metrics')\ndef metrics():\n    data = generate_latest()\n    return Response(content=data, media_type=CONTENT_TYPE_LATEST)\n",
+    "hints": [
+      "Use prometheus_client.generate_latest to render metrics",
+      "Set media_type to CONTENT_TYPE_LATEST",
+      "Increment a Counter for each request",
+      "A /metrics endpoint is standard for Prometheus scraping"
+    ],
+    "xp": 125
+  },
+  {
+    "id": 7,
+    "title": "Detect Data Drift",
+    "difficulty": "hard",
+    "description": "Compute a simple drift metric between baseline training data and new data using population statistics.",
+    "starter_code": "import numpy as np\n\nbaseline = np.array([1.1, 1.3, 1.2, 1.4, 1.5])\nnew_data = np.array([1.2, 1.25, 1.3, 1.1, 1.35])\n\n# TODO: compute mean and standard deviation for both datasets\n# TODO: calculate a drift score, e.g. absolute mean difference\n",
+    "solution": "import numpy as np\n\nbaseline = np.array([1.1, 1.3, 1.2, 1.4, 1.5])\nnew_data = np.array([1.2, 1.25, 1.3, 1.1, 1.35])\n\nbaseline_mean = baseline.mean()\nnew_mean = new_data.mean()\nbaseline_std = baseline.std()\nnew_std = new_data.std()\n\ndrift_score = abs(new_mean - baseline_mean)\nprint(f'Baseline mean: {baseline_mean:.3f}')\nprint(f'New mean: {new_mean:.3f}')\nprint(f'Drift score: {drift_score:.3f}')\n",
+    "hints": [
+      "Use numpy.mean and numpy.std to compute statistics",
+      "Compare baseline and new distributions with absolute difference",
+      "A simple drift metric can be a mean shift",
+      "This is a starting point for monitoring drift"
+    ],
+    "xp": 150
+  },
+  {
+    "id": 8,
+    "title": "Implement a Rollback Strategy",
+    "difficulty": "hard",
+    "description": "Outline code or pseudocode for a rollback check when a new model deployment fails health or performance checks.",
+    "starter_code": "def check_model_health(metrics):\n    # TODO: determine if the model should be rolled back\n    return False\n\nmetrics = {'error_rate': 0.12, 'latency_ms': 150}  # example values\nprint(check_model_health(metrics))\n",
+    "solution": "def check_model_health(metrics):\n    if metrics['error_rate'] > 0.10:\n        return True  # rollback due to high error rate\n    if metrics['latency_ms'] > 200:\n        return True  # rollback due to excessive latency\n    return False\n\nmetrics = {'error_rate': 0.12, 'latency_ms': 150}\nprint(check_model_health(metrics))\n",
+    "hints": [
+      "Check both quality and latency conditions",
+      "Return True when thresholds are exceeded",
+      "A rollback strategy should be simple and deterministic",
+      "Use real metrics from model monitoring systems"
+    ],
+    "xp": 150
+  },
+  {
+    "id": 9,
+    "title": "Track Model Versions",
+    "difficulty": "hard",
+    "description": "Create a simple versioning scheme for models and print the next model version string.",
+    "starter_code": "current_version = 'v1.2.3'\n# TODO: increment patch version to create next version\n",
+    "solution": "current_version = 'v1.2.3'\nmajor, minor, patch = map(int, current_version.lstrip('v').split('.'))\nnext_version = f'v{major}.{minor}.{patch + 1}'\nprint(next_version)\n",
+    "hints": [
+      "Split the version string on dots after removing the leading 'v'",
+      "Increment the patch version by 1",
+      "Format the next version back to 'vX.Y.Z'",
+      "Version numbers help rollback and audit deployments"
+    ],
+    "xp": 150
+  },
+  {
+    "id": 10,
+    "title": "CI/CD Pipeline Checklist",
+    "difficulty": "hard",
+    "description": "Build a checklist function that validates whether model deployment steps are complete.",
+    "starter_code": "def pipeline_ready(checks):\n    # TODO: return True when all required checks pass\n    pass\n\nchecks = {'tests': True, 'build': True, 'monitoring': False, 'security_scan': True}\nprint(pipeline_ready(checks))\n",
+    "solution": "def pipeline_ready(checks):\n    required_steps = ['tests', 'build', 'monitoring', 'security_scan']\n    return all(checks.get(step, False) for step in required_steps)\n\nchecks = {'tests': True, 'build': True, 'monitoring': False, 'security_scan': True}\nprint(pipeline_ready(checks))\n",
+    "hints": [
+      "Use all() to verify all required steps are True",
+      "Define required pipeline checks explicitly",
+      "Default missing checks to False",
+      "CI/CD pipelines should gate deployment on successful checks"
+    ],
+    "xp": 150
+  }
+]

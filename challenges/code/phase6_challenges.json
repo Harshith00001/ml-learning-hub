@@ -1,0 +1,152 @@
+[
+  {
+    "id": 1,
+    "title": "Classification Metrics Implementation",
+    "difficulty": "easy",
+    "description": "Implement precision, recall, and F1 score from scratch using a confusion matrix.",
+    "starter_code": "from sklearn.metrics import confusion_matrix, precision_score, recall_score, f1_score\nimport numpy as np\n\n# Sample predictions and true labels\ny_true = [0, 0, 1, 1, 1, 0, 1, 0]\ny_pred = [0, 0, 1, 0, 1, 0, 1, 1]\n\n# Calculate confusion matrix\ntn, fp, fn, tp = confusion_matrix(y_true, y_pred).ravel()\n\n# TODO: Calculate precision, recall, F1 from TP, TN, FP, FN\n# Precision = TP / (TP + FP)\n# Recall = TP / (TP + FN)\n# F1 = 2 * (precision * recall) / (precision + recall)\n\nprint(f\"Precision: {precision}\")\nprint(f\"Recall: {recall}\")\nprint(f\"F1 Score: {f1}\")",
+    "solution": "from sklearn.metrics import confusion_matrix, precision_score, recall_score, f1_score\nimport numpy as np\n\n# Sample predictions and true labels\ny_true = [0, 0, 1, 1, 1, 0, 1, 0]\ny_pred = [0, 0, 1, 0, 1, 0, 1, 1]\n\n# Calculate confusion matrix\ntn, fp, fn, tp = confusion_matrix(y_true, y_pred).ravel()\n\n# Calculate metrics from confusion matrix\nprecision = tp / (tp + fp) if (tp + fp) > 0 else 0\nrecall = tp / (tp + fn) if (tp + fn) > 0 else 0\nf1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0\n\nprint(f\"Precision: {precision:.3f}\")\nprint(f\"Recall: {recall:.3f}\")\nprint(f\"F1 Score: {f1:.3f}\")\nprint(f\"Verify: precision_score={precision_score(y_true, y_pred):.3f}\")\nprint(f\"Verify: recall_score={recall_score(y_true, y_pred):.3f}\")\nprint(f\"Verify: f1_score={f1_score(y_true, y_pred):.3f}\")",
+    "hints": [
+      "Confusion matrix returns TN, FP, FN, TP in order when using .ravel()",
+      "Precision measures: of predicted positives, how many were correct",
+      "Recall measures: of actual positives, how many did we find",
+      "Check for division by zero"
+    ],
+    "xp": 75
+  },
+  {
+    "id": 2,
+    "title": "ROC Curve and AUC",
+    "difficulty": "easy",
+    "description": "Plot ROC curve and calculate AUC for a binary classifier.",
+    "starter_code": "from sklearn.datasets import load_breast_cancer\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import roc_curve, auc, roc_auc_score\nimport matplotlib.pyplot as plt\n\n# Load data\ndata = load_breast_cancer()\nX_train, X_test, y_train, y_test = train_test_split(data.data, data.target, test_size=0.3, random_state=42)\n\n# Train model\nmodel = LogisticRegression(max_iter=10000)\nmodel.fit(X_train, y_train)\n\n# TODO: Get probability predictions and calculate ROC curve\n# TODO: Calculate AUC score\n# TODO: Plot ROC curve with AUC in legend\n\nplt.xlabel('False Positive Rate')\nplt.ylabel('True Positive Rate')\nplt.title('ROC Curve')\nplt.legend()\nplt.show()",
+    "solution": "from sklearn.datasets import load_breast_cancer\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import roc_curve, auc, roc_auc_score\nimport matplotlib.pyplot as plt\n\n# Load data\ndata = load_breast_cancer()\nX_train, X_test, y_train, y_test = train_test_split(data.data, data.target, test_size=0.3, random_state=42)\n\n# Train model\nmodel = LogisticRegression(max_iter=10000)\nmodel.fit(X_train, y_train)\n\n# Get probability predictions\ny_proba = model.predict_proba(X_test)[:, 1]\n\n# Calculate ROC curve\nfpr, tpr, thresholds = roc_curve(y_test, y_proba)\nauc_score = auc(fpr, tpr)\n\n# Plot\nplt.figure(figsize=(8, 6))\nplt.plot(fpr, tpr, color='darkorange', lw=2, label=f'ROC curve (AUC = {auc_score:.3f})')\nplt.plot([0, 1], [0, 1], color='navy', lw=2, linestyle='--', label='Random Classifier')\nplt.xlabel('False Positive Rate')\nplt.ylabel('True Positive Rate')\nplt.title('ROC Curve')\nplt.legend()\nplt.show()\n\nprint(f\"AUC Score: {auc_score:.3f}\")",
+    "hints": [
+      "Use predict_proba() to get probability predictions, take column 1",
+      "roc_curve returns fpr, tpr, thresholds in that order",
+      "AUC can be calculated from fpr and tpr using auc()",
+      "Diagonal line (0,0) to (1,1) represents random classifier"
+    ],
+    "xp": 100
+  },
+  {
+    "id": 3,
+    "title": "Stratified K-Fold Cross-Validation",
+    "difficulty": "medium",
+    "description": "Compare regular k-fold with stratified k-fold on imbalanced data.",
+    "starter_code": "from sklearn.datasets import load_breast_cancer\nfrom sklearn.model_selection import KFold, StratifiedKFold\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import f1_score\nimport numpy as np\n\ndata = load_breast_cancer()\nX, y = data.data, data.target\n\n# TODO: Use regular KFold (n_splits=5)\n# TODO: Use StratifiedKFold (n_splits=5)\n# TODO: Train model on each fold and evaluate with F1 score\n# TODO: Compare mean F1 scores\n# TODO: Print class distribution in a few folds to show difference\n\nprint(\"Regular KFold F1 scores:\", kfold_scores)\nprint(\"Stratified KFold F1 scores:\", stratified_scores)",
+    "solution": "from sklearn.datasets import load_breast_cancer\nfrom sklearn.model_selection import KFold, StratifiedKFold\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import f1_score\nimport numpy as np\n\ndata = load_breast_cancer()\nX, y = data.data, data.target\n\nmodel = LogisticRegression(max_iter=10000, random_state=42)\n\n# Regular KFold\nkfold = KFold(n_splits=5, shuffle=True, random_state=42)\nkfold_scores = []\nfor train_idx, test_idx in kfold.split(X):\n    X_train, X_test = X[train_idx], X[test_idx]\n    y_train, y_test = y[train_idx], y[test_idx]\n    model.fit(X_train, y_train)\n    pred = model.predict(X_test)\n    kfold_scores.append(f1_score(y_test, pred))\n\n# Stratified KFold\nstratified = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)\nstratified_scores = []\nfor train_idx, test_idx in stratified.split(X, y):\n    X_train, X_test = X[train_idx], X[test_idx]\n    y_train, y_test = y[train_idx], y[test_idx]\n    model.fit(X_train, y_train)\n    pred = model.predict(X_test)\n    stratified_scores.append(f1_score(y_test, pred))\n\nprint(f\"Regular KFold F1 scores: {[f'{s:.3f}' for s in kfold_scores]}\")\nprint(f\"Regular KFold mean F1: {np.mean(kfold_scores):.3f}\")\nprint(f\"Stratified KFold F1 scores: {[f'{s:.3f}' for s in stratified_scores]}\")\nprint(f\"Stratified KFold mean F1: {np.mean(stratified_scores):.3f}\")",
+    "hints": [
+      "KFold.split(X) returns indices, StratifiedKFold.split(X, y) requires y",
+      "stratified_scores typically have lower variance across folds",
+      "For imbalanced data, stratified k-fold ensures each fold is representative"
+    ],
+    "xp": 100
+  },
+  {
+    "id": 4,
+    "title": "Permutation Feature Importance",
+    "difficulty": "medium",
+    "description": "Calculate feature importance using permutation method (model-agnostic).",
+    "starter_code": "from sklearn.datasets import load_iris\nfrom sklearn.ensemble import RandomForestClassifier\nfrom sklearn.inspection import permutation_importance\nfrom sklearn.model_selection import train_test_split\nimport pandas as pd\n\ndata = load_iris()\nX = pd.DataFrame(data.data, columns=data.feature_names)\ny = data.target\n\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)\n\n# Train model\nmodel = RandomForestClassifier(n_estimators=100, random_state=42)\nmodel.fit(X_train, y_train)\n\n# TODO: Calculate permutation importance on test set\n# TODO: Create DataFrame with feature names and importance scores\n# TODO: Sort by importance descending\n# TODO: Plot importance scores\n\nprint(importance_df)",
+    "solution": "from sklearn.datasets import load_iris\nfrom sklearn.ensemble import RandomForestClassifier\nfrom sklearn.inspection import permutation_importance\nfrom sklearn.model_selection import train_test_split\nimport pandas as pd\nimport matplotlib.pyplot as plt\n\ndata = load_iris()\nX = pd.DataFrame(data.data, columns=data.feature_names)\ny = data.target\n\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)\n\n# Train model\nmodel = RandomForestClassifier(n_estimators=100, random_state=42)\nmodel.fit(X_train, y_train)\n\n# Calculate permutation importance\nperm_importance = permutation_importance(model, X_test, y_test, n_repeats=10, random_state=42)\n\n# Create DataFrame\nimportance_df = pd.DataFrame({\n    'feature': X.columns,\n    'importance': perm_importance.importances_mean,\n    'std': perm_importance.importances_std\n}).sort_values('importance', ascending=False)\n\nprint(importance_df)\n\n# Plot\nplt.figure(figsize=(8, 6))\nplt.barh(importance_df['feature'], importance_df['importance'])\nplt.xlabel('Permutation Importance')\nplt.title('Feature Importance (Permutation Method)')\nplt.tight_layout()\nplt.show()",
+    "hints": [
+      "permutation_importance(model, X_test, y_test) evaluates on test set",
+      "Returns object with importances_mean and importances_std",
+      "Model-agnostic: works with any model, any dataset",
+      "Lower importance = feature less important for prediction"
+    ],
+    "xp": 125
+  },
+  {
+    "id": 5,
+    "title": "Recursive Feature Elimination (RFE)",
+    "difficulty": "medium",
+    "description": "Use RFE to select top N features from a dataset.",
+    "starter_code": "from sklearn.datasets import load_breast_cancer\nfrom sklearn.feature_selection import RFE\nfrom sklearn.svm import SVC\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.metrics import accuracy_score\nimport pandas as pd\n\ndata = load_breast_cancer()\nX = pd.DataFrame(data.data, columns=data.feature_names)\ny = data.target\n\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)\n\n# TODO: Create SVM model\n# TODO: Use RFE to select top 10 features\n# TODO: Train model on selected features\n# TODO: Evaluate accuracy on full feature set vs selected features\n# TODO: Print selected feature names\n\nprint(\"Selected features:\", selected_features)",
+    "solution": "from sklearn.datasets import load_breast_cancer\nfrom sklearn.feature_selection import RFE\nfrom sklearn.svm import SVC\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.metrics import accuracy_score\nimport pandas as pd\n\ndata = load_breast_cancer()\nX = pd.DataFrame(data.data, columns=data.feature_names)\ny = data.target\n\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)\n\n# Create SVM model\nmodel = SVC(kernel='linear', random_state=42)\n\n# Use RFE to select top 10 features\nrfe = RFE(model, n_features_to_select=10)\nrfe.fit(X_train, y_train)\n\n# Selected features\nselected_features = X.columns[rfe.support_].tolist()\nprint(\"Selected features:\", selected_features)\n\n# Train on full features\nmodel.fit(X_train, y_train)\ny_pred_full = model.predict(X_test)\nacc_full = accuracy_score(y_test, y_pred_full)\n\n# Train on selected features\nX_train_selected = X_train[selected_features]\nX_test_selected = X_test[selected_features]\nmodel_selected = SVC(kernel='linear', random_state=42)\nmodel_selected.fit(X_train_selected, y_train)\ny_pred_selected = model_selected.predict(X_test_selected)\nacc_selected = accuracy_score(y_test, y_pred_selected)\n\nprint(f\"Accuracy with all {X.shape[1]} features: {acc_full:.3f}\")\nprint(f\"Accuracy with {len(selected_features)} selected features: {acc_selected:.3f}\")",
+    "hints": [
+      "RFE(model, n_features_to_select=n) - specify how many features to keep",
+      "rfe.support_ is boolean array indicating selected features",
+      "RFE considers feature interactions during elimination",
+      "Useful for reducing model complexity while maintaining accuracy"
+    ],
+    "xp": 125
+  },
+  {
+    "id": 6,
+    "title": "Model Calibration Curves",
+    "difficulty": "medium",
+    "description": "Plot calibration curves to assess if predicted probabilities match true probabilities.",
+    "starter_code": "from sklearn.datasets import load_breast_cancer\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.calibration import calibration_curve\nimport matplotlib.pyplot as plt\n\ndata = load_breast_cancer()\nX_train, X_test, y_train, y_test = train_test_split(data.data, data.target, test_size=0.3, random_state=42)\n\n# Uncalibrated model\nmodel = LogisticRegression(max_iter=10000)\nmodel.fit(X_train, y_train)\ny_proba = model.predict_proba(X_test)[:, 1]\n\n# TODO: Calculate calibration curve (using calibration_curve function)\n# TODO: Plot calibration curve\n# TODO: Plot diagonal line (perfect calibration)\n# TODO: Interpret results\n\nplt.xlabel('Mean Predicted Probability')\nplt.ylabel('True Probability')\nplt.title('Calibration Curve')\nplt.legend()\nplt.show()",
+    "solution": "from sklearn.datasets import load_breast_cancer\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.calibration import calibration_curve, CalibratedClassifierCV\nimport matplotlib.pyplot as plt\n\ndata = load_breast_cancer()\nX_train, X_test, y_train, y_test = train_test_split(data.data, data.target, test_size=0.3, random_state=42)\n\n# Uncalibrated model\nmodel = LogisticRegression(max_iter=10000, random_state=42)\nmodel.fit(X_train, y_train)\ny_proba = model.predict_proba(X_test)[:, 1]\n\n# Calculate calibration curve\nprob_true, prob_pred = calibration_curve(y_test, y_proba, n_bins=10)\n\n# Calibrated model\ncalibrated_model = CalibratedClassifierCV(model, method='sigmoid', cv=5)\ncalibrated_model.fit(X_train, y_train)\ny_proba_cal = calibrated_model.predict_proba(X_test)[:, 1]\n\nprob_true_cal, prob_pred_cal = calibration_curve(y_test, y_proba_cal, n_bins=10)\n\n# Plot\nplt.figure(figsize=(8, 6))\nplt.plot(prob_pred, prob_true, marker='o', label='Uncalibrated')\nplt.plot(prob_pred_cal, prob_true_cal, marker='s', label='Calibrated')\nplt.plot([0, 1], [0, 1], linestyle='--', color='gray', label='Perfect Calibration')\nplt.xlabel('Mean Predicted Probability')\nplt.ylabel('True Probability')\nplt.title('Calibration Curve')\nplt.legend()\nplt.grid(alpha=0.3)\nplt.show()",
+    "hints": [
+      "calibration_curve(y_test, y_proba, n_bins=10) splits predictions into bins",
+      "Perfect calibration: points lie on diagonal (predicted = true probability)",
+      "CalibratedClassifierCV applies isotonic regression or sigmoid calibration",
+      "Calibration important for probability predictions (e.g., medical, fraud)"
+    ],
+    "xp": 125
+  },
+  {
+    "id": 7,
+    "title": "Learning Curves for Bias-Variance Analysis",
+    "difficulty": "medium",
+    "description": "Plot learning curves to diagnose underfitting vs overfitting.",
+    "starter_code": "from sklearn.datasets import load_digits\nfrom sklearn.model_selection import learning_curve\nfrom sklearn.svm import SVC\nimport numpy as np\nimport matplotlib.pyplot as plt\n\ndata = load_digits()\nX, y = data.data, data.target\n\n# TODO: Calculate learning curves for SVM\n# TODO: Plot train and validation curves\n# TODO: Interpret: gap indicates overfitting, both high indicates underfitting\n\nplt.xlabel('Training Set Size')\nplt.ylabel('Score')\nplt.title('Learning Curve')\nplt.legend()\nplt.show()",
+    "solution": "from sklearn.datasets import load_digits\nfrom sklearn.model_selection import learning_curve\nfrom sklearn.svm import SVC\nimport numpy as np\nimport matplotlib.pyplot as plt\n\ndata = load_digits()\nX, y = data.data, data.target\n\n# Calculate learning curves\nmodel = SVC(kernel='rbf', random_state=42)\ntrain_sizes, train_scores, val_scores = learning_curve(\n    model, X, y, cv=5, \n    train_sizes=np.linspace(0.1, 1.0, 10),\n    scoring='accuracy'\n)\n\n# Calculate mean and std\ntrain_mean = np.mean(train_scores, axis=1)\ntrain_std = np.std(train_scores, axis=1)\nval_mean = np.mean(val_scores, axis=1)\nval_std = np.std(val_scores, axis=1)\n\n# Plot\nplt.figure(figsize=(10, 6))\nplt.plot(train_sizes, train_mean, label='Training Score', color='blue')\nplt.fill_between(train_sizes, train_mean - train_std, train_mean + train_std, alpha=0.2, color='blue')\nplt.plot(train_sizes, val_mean, label='Validation Score', color='red')\nplt.fill_between(train_sizes, val_mean - val_std, val_mean + val_std, alpha=0.2, color='red')\nplt.xlabel('Training Set Size')\nplt.ylabel('Accuracy')\nplt.title('Learning Curve')\nplt.legend()\nplt.grid(alpha=0.3)\nplt.show()\n\nprint(f\"Final train score: {train_mean[-1]:.3f}\")\nprint(f\"Final val score: {val_mean[-1]:.3f}\")\nprint(f\"Gap (overfitting): {train_mean[-1] - val_mean[-1]:.3f}\")",
+    "hints": [
+      "learning_curve returns train_sizes, train_scores, val_scores",
+      "train_scores and val_scores have shape (n_iterations, n_splits)",
+      "Plot mean ± std to show confidence bands",
+      "Large gap = overfitting, both low = underfitting, converge = good fit"
+    ],
+    "xp": 125
+  },
+  {
+    "id": 8,
+    "title": "Imbalanced Data with Class Weights",
+    "difficulty": "hard",
+    "description": "Handle imbalanced classification using class weights and appropriate metrics.",
+    "starter_code": "from sklearn.datasets import load_breast_cancer\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import f1_score, roc_auc_score, classification_report\nimport numpy as np\n\ndata = load_breast_cancer()\nX, y = data.data, data.target\n\n# Create imbalanced dataset (keep only 200 samples, mostly negative)\nnp.random.seed(42)\nidx = np.random.choice(len(y), 200, replace=False)\nX, y = X[idx], y[idx]\ny = np.where(y == 1, 1, 0)  # Ensure binary\n\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42, stratify=y)\n\nprint(f\"Class distribution in test: {np.bincount(y_test)}\")\n\n# TODO: Train model without class weights\n# TODO: Train model with class_weight='balanced'\n# TODO: Compare F1 and ROC AUC scores\n\nprint(\"\\nWithout class weights:\")\nprint(classification_report(y_test, pred1))\nprint(\"\\nWith class weights:\")\nprint(classification_report(y_test, pred2))",
+    "solution": "from sklearn.datasets import load_breast_cancer\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import f1_score, roc_auc_score, classification_report\nimport numpy as np\n\ndata = load_breast_cancer()\nX, y = data.data, data.target\n\n# Create imbalanced dataset\nnp.random.seed(42)\nidx = np.random.choice(len(y), 200, replace=False)\nX, y = X[idx], y[idx]\n\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42, stratify=y)\n\nprint(f\"Class distribution: {np.bincount(y_test)}\")\n\n# Without class weights\nmodel1 = LogisticRegression(max_iter=1000, random_state=42)\nmodel1.fit(X_train, y_train)\ny_pred1 = model1.predict(X_test)\ny_proba1 = model1.predict_proba(X_test)[:, 1]\n\nf1_1 = f1_score(y_test, y_pred1)\nauc_1 = roc_auc_score(y_test, y_proba1)\n\n# With class weights\nmodel2 = LogisticRegression(max_iter=1000, class_weight='balanced', random_state=42)\nmodel2.fit(X_train, y_train)\ny_pred2 = model2.predict(X_test)\ny_proba2 = model2.predict_proba(X_test)[:, 1]\n\nf1_2 = f1_score(y_test, y_pred2)\nauc_2 = roc_auc_score(y_test, y_proba2)\n\nprint(f\"\\nWithout class weights: F1={f1_1:.3f}, AUC={auc_1:.3f}\")\nprint(classification_report(y_test, y_pred1))\n\nprint(f\"\\nWith class weights: F1={f1_2:.3f}, AUC={auc_2:.3f}\")\nprint(classification_report(y_test, y_pred2))",
+    "hints": [
+      "class_weight='balanced' automatically adjusts weights inversely to class frequencies",
+      "Always use stratified split for imbalanced data",
+      "Evaluate with F1 and ROC AUC, not accuracy",
+      "Weighted models typically improve minority class recall"
+    ],
+    "xp": 175
+  },
+  {
+    "id": 9,
+    "title": "SMOTE for Imbalanced Data",
+    "difficulty": "hard",
+    "description": "Apply SMOTE (Synthetic Minority Over-sampling) to handle imbalanced data.",
+    "starter_code": "from imblearn.over_sampling import SMOTE\nfrom sklearn.datasets import load_breast_cancer\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import f1_score, classification_report\nimport numpy as np\n\ndata = load_breast_cancer()\nX, y = data.data, data.target\n\n# Create imbalanced dataset\nnp.random.seed(42)\nidx = np.random.choice(len(y), 200, replace=False)\nX, y = X[idx], y[idx]\n\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42, stratify=y)\n\nprint(f\"Original training distribution: {np.bincount(y_train)}\")\n\n# TODO: Apply SMOTE to training data only\n# TODO: Train model on SMOTE-resampled data\n# TODO: Compare with unbalanced model\n# TODO: Remember: only apply SMOTE to training data, not test data\n\nprint(f\"After SMOTE: {np.bincount(y_train_smote)}\")",
+    "solution": "from imblearn.over_sampling import SMOTE\nfrom sklearn.datasets import load_breast_cancer\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import f1_score, classification_report\nimport numpy as np\n\ndata = load_breast_cancer()\nX, y = data.data, data.target\n\n# Create imbalanced dataset\nnp.random.seed(42)\nidx = np.random.choice(len(y), 200, replace=False)\nX, y = X[idx], y[idx]\n\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42, stratify=y)\n\nprint(f\"Original training distribution: {np.bincount(y_train)}\")\n\n# Apply SMOTE (only on training data!)\nsmote = SMOTE(random_state=42)\nX_train_smote, y_train_smote = smote.fit_resample(X_train, y_train)\n\nprint(f\"After SMOTE: {np.bincount(y_train_smote)}\")\n\n# Model without SMOTE\nmodel1 = LogisticRegression(max_iter=1000, random_state=42)\nmodel1.fit(X_train, y_train)\nf1_1 = f1_score(y_test, model1.predict(X_test))\n\n# Model with SMOTE\nmodel2 = LogisticRegression(max_iter=1000, random_state=42)\nmodel2.fit(X_train_smote, y_train_smote)\nf1_2 = f1_score(y_test, model2.predict(X_test))\n\nprint(f\"\\nF1 without SMOTE: {f1_1:.3f}\")\nprint(classification_report(y_test, model1.predict(X_test)))\n\nprint(f\"\\nF1 with SMOTE: {f1_2:.3f}\")\nprint(classification_report(y_test, model2.predict(X_test)))",
+    "hints": [
+      "SMOTE creates synthetic minority samples by interpolating between neighbors",
+      "Only apply SMOTE to training data, never to test data (prevents data leakage)",
+      "Use fit_resample(X_train, y_train) to get balanced data",
+      "Combined with class_weight='balanced' for best results"
+    ],
+    "xp": 175
+  },
+  {
+    "id": 10,
+    "title": "Threshold Tuning for Business Objectives",
+    "difficulty": "hard",
+    "description": "Adjust classification threshold to optimize for specific business metrics.",
+    "starter_code": "from sklearn.datasets import load_breast_cancer\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import precision_recall_curve, f1_score\nimport numpy as np\nimport matplotlib.pyplot as plt\n\ndata = load_breast_cancer()\nX_train, X_test, y_train, y_test = train_test_split(data.data, data.target, test_size=0.3, random_state=42)\n\n# Train model\nmodel = LogisticRegression(max_iter=10000)\nmodel.fit(X_train, y_train)\ny_proba = model.predict_proba(X_test)[:, 1]\n\n# TODO: Get precision-recall curve\n# TODO: Find threshold that maximizes F1 score\n# TODO: Plot precision, recall, and F1 vs threshold\n# TODO: Show predictions at different thresholds\n\nplt.xlabel('Threshold')\nplt.ylabel('Score')\nplt.title('Metrics vs Classification Threshold')\nplt.legend()\nplt.show()",
+    "solution": "from sklearn.datasets import load_breast_cancer\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import precision_recall_curve, f1_score, precision_score, recall_score\nimport numpy as np\nimport matplotlib.pyplot as plt\n\ndata = load_breast_cancer()\nX_train, X_test, y_train, y_test = train_test_split(data.data, data.target, test_size=0.3, random_state=42)\n\n# Train model\nmodel = LogisticRegression(max_iter=10000, random_state=42)\nmodel.fit(X_train, y_train)\ny_proba = model.predict_proba(X_test)[:, 1]\n\n# Get precision-recall curve\nprecision, recall, thresholds = precision_recall_curve(y_test, y_proba)\n\n# Calculate F1 for each threshold\nf1_scores = 2 * (precision[:-1] * recall[:-1]) / (precision[:-1] + recall[:-1] + 1e-10)\nbest_idx = np.argmax(f1_scores)\nbest_threshold = thresholds[best_idx]\nbest_f1 = f1_scores[best_idx]\n\n# Plot\nplt.figure(figsize=(10, 6))\nplt.plot(thresholds, precision[:-1], label='Precision', marker='.')\nplt.plot(thresholds, recall[:-1], label='Recall', marker='.')\nplt.plot(thresholds, f1_scores, label='F1', marker='.')\nplt.axvline(best_threshold, color='red', linestyle='--', label=f'Best F1 at {best_threshold:.2f}')\nplt.xlabel('Classification Threshold')\nplt.ylabel('Score')\nplt.title('Metrics vs Classification Threshold')\nplt.legend()\nplt.grid(alpha=0.3)\nplt.show()\n\nprint(f\"Best threshold: {best_threshold:.3f}\")\nprint(f\"Best F1 score: {best_f1:.3f}\")\n\n# Apply custom threshold\ny_pred_custom = (y_proba >= best_threshold).astype(int)\nprint(f\"\\nMetrics at custom threshold {best_threshold:.3f}:\")\nprint(f\"Precision: {precision_score(y_test, y_pred_custom):.3f}\")\nprint(f\"Recall: {recall_score(y_test, y_pred_custom):.3f}\")\nprint(f\"F1: {f1_score(y_test, y_pred_custom):.3f}\")"
+    ,
+    "hints": [
+      "Default threshold is 0.5, but business objectives may require different values",
+      "Lower threshold → higher recall (catch more positives, more false positives)",
+      "Higher threshold → higher precision (fewer false positives, miss some positives)",
+      "precision_recall_curve(y_test, y_proba) returns (precision, recall, thresholds)"
+    ],
+    "xp": 175
+  }
+]

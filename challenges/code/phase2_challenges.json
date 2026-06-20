@@ -1,0 +1,102 @@
+[
+  {
+    "id": "p2_c1",
+    "title": "Load and Explore a Dataset",
+    "difficulty": "easy",
+    "description": "Load the Iris dataset into a pandas DataFrame, explore its structure using head(), info(), and describe().",
+    "starter_code": "import pandas as pd\nfrom sklearn.datasets import load_iris\n\n# Load iris into DataFrame\niris = load_iris()\n# TODO: Create DataFrame with iris data and column names\ndf = None  # Replace with pd.DataFrame(...)\n\nprint(df.head())\nprint(df.info())\nprint(df.describe())",
+    "solution": "import pandas as pd\nfrom sklearn.datasets import load_iris\n\niris = load_iris()\ndf = pd.DataFrame(iris.data, columns=iris.feature_names)\ndf['target'] = iris.target\n\nprint(df.head())\nprint(df.info())\nprint(df.describe())",
+    "hints": ["Use pd.DataFrame() to create DataFrame", "Pass iris.feature_names as columns parameter", "Add target as a new column"],
+    "xp": 75
+  },
+  {
+    "id": "p2_c2",
+    "title": "Filter and Select Data",
+    "difficulty": "easy",
+    "description": "Filter rows where sepal length > 5.0 and display only sepal length and sepal width columns.",
+    "starter_code": "import pandas as pd\nfrom sklearn.datasets import load_iris\n\niris = load_iris()\ndf = pd.DataFrame(iris.data, columns=iris.feature_names)\n\n# TODO: Filter rows where sepal length > 5.0\n# TODO: Select only first two columns\nresult = None  # Replace with filtered DataFrame",
+    "solution": "import pandas as pd\nfrom sklearn.datasets import load_iris\n\niris = load_iris()\ndf = pd.DataFrame(iris.data, columns=iris.feature_names)\n\n# Filter and select\nresult = df[df['sepal length (cm)'] > 5.0][['sepal length (cm)', 'sepal width (cm)']]\nprint(result.head())\nprint(f\"Shape: {result.shape}\")",
+    "hints": ["Use boolean indexing: df[df['column'] > value]", "Select columns with double brackets: df[['col1', 'col2']]", "Chain operations: df[filter][columns]"],
+    "xp": 100
+  },
+  {
+    "id": "p2_c3",
+    "title": "Handle Missing Values",
+    "difficulty": "medium",
+    "description": "Create a DataFrame with missing values, then demonstrate filling and dropping missing values.",
+    "starter_code": "import pandas as pd\nimport numpy as np\n\ndf = pd.DataFrame({\n    'A': [1, 2, np.nan, 4],\n    'B': [5, np.nan, 7, 8],\n    'C': [9, 10, 11, 12]\n})\n\nprint(\"Missing values:\")\nprint(df.isnull().sum())\n\n# TODO: Drop rows with any missing\ndf_dropped = None\n\n# TODO: Fill missing with column mean\ndf_filled = None\n\nprint(df_dropped)\nprint(df_filled)",
+    "solution": "import pandas as pd\nimport numpy as np\n\ndf = pd.DataFrame({\n    'A': [1, 2, np.nan, 4],\n    'B': [5, np.nan, 7, 8],\n    'C': [9, 10, 11, 12]\n})\n\nprint(\"Missing values:\")\nprint(df.isnull().sum())\n\n# Drop rows with any missing\ndf_dropped = df.dropna()\n\n# Fill missing with column mean\ndf_filled = df.fillna(df.mean())\n\nprint(df_dropped)\nprint(df_filled)",
+    "hints": ["Use .dropna() to remove rows", "Use .fillna(df.mean()) to fill with mean", "Use .isnull().sum() to count missing"],
+    "xp": 100
+  },
+  {
+    "id": "p2_c4",
+    "title": "Group By and Aggregate",
+    "difficulty": "medium",
+    "description": "Load Iris data and compute mean sepal length for each flower species (target).",
+    "starter_code": "import pandas as pd\nfrom sklearn.datasets import load_iris\n\niris = load_iris()\ndf = pd.DataFrame(iris.data, columns=iris.feature_names)\ndf['species'] = iris.target_names[iris.target]\n\n# TODO: Group by species and compute mean sepal length\nresult = None  # Replace with groupby result\n\nprint(result)",
+    "solution": "import pandas as pd\nfrom sklearn.datasets import load_iris\n\niris = load_iris()\ndf = pd.DataFrame(iris.data, columns=iris.feature_names)\ndf['species'] = iris.target_names[iris.target]\n\n# Group by species and compute mean sepal length\nresult = df.groupby('species')['sepal length (cm)'].mean()\n\nprint(result)",
+    "hints": ["Use .groupby('column_name')", "Chain with ['column_to_aggregate']", "Call .mean() at the end"],
+    "xp": 125
+  },
+  {
+    "id": "p2_c5",
+    "title": "Merge Two DataFrames",
+    "difficulty": "medium",
+    "description": "Create two DataFrames and merge them on a common column (inner join).",
+    "starter_code": "import pandas as pd\n\ndf1 = pd.DataFrame({\n    'id': [1, 2, 3],\n    'name': ['Alice', 'Bob', 'Charlie']\n})\n\ndf2 = pd.DataFrame({\n    'id': [1, 2, 3],\n    'age': [25, 30, 35]\n})\n\n# TODO: Merge on 'id' column\nmerged = None  # Replace with pd.merge result\n\nprint(merged)",
+    "solution": "import pandas as pd\n\ndf1 = pd.DataFrame({\n    'id': [1, 2, 3],\n    'name': ['Alice', 'Bob', 'Charlie']\n})\n\ndf2 = pd.DataFrame({\n    'id': [1, 2, 3],\n    'age': [25, 30, 35]\n})\n\n# Merge on 'id' column\nmerged = pd.merge(df1, df2, on='id')\n\nprint(merged)",
+    "hints": ["Use pd.merge(df1, df2, on='column')", "how='inner' is default (only matching rows)", "Alternative: df1.merge(df2, on='id')"],
+    "xp": 100
+  },
+  {
+    "id": "p2_c6",
+    "title": "NumPy Vectorization",
+    "difficulty": "medium",
+    "description": "Use NumPy to compute element-wise operations. Create array, apply transformations.",
+    "starter_code": "import numpy as np\n\n# Create array\narr = np.array([1, 2, 3, 4, 5])\n\n# TODO: Add 10 to each element\narr_plus_10 = None\n\n# TODO: Square each element\narr_squared = None\n\n# TODO: Compute mean and std\nmean_val = None\nstd_val = None\n\nprint(f\"Plus 10: {arr_plus_10}\")\nprint(f\"Squared: {arr_squared}\")\nprint(f\"Mean: {mean_val}, Std: {std_val}\")",
+    "solution": "import numpy as np\n\narr = np.array([1, 2, 3, 4, 5])\n\n# Add 10 to each element\narr_plus_10 = arr + 10\n\n# Square each element\narr_squared = arr ** 2\n\n# Compute mean and std\nmean_val = arr.mean()\nstd_val = arr.std()\n\nprint(f\"Plus 10: {arr_plus_10}\")\nprint(f\"Squared: {arr_squared}\")\nprint(f\"Mean: {mean_val}, Std: {std_val}\")",
+    "hints": ["Use + operator directly (broadcasting)", "Use ** for power", "Use .mean() and .std() methods"],
+    "xp": 100
+  },
+  {
+    "id": "p2_c7",
+    "title": "Create Basic Plots",
+    "difficulty": "medium",
+    "description": "Use matplotlib to create line plot and scatter plot of Iris sepal data.",
+    "starter_code": "import matplotlib.pyplot as plt\nimport pandas as pd\nfrom sklearn.datasets import load_iris\n\niris = load_iris()\ndf = pd.DataFrame(iris.data, columns=iris.feature_names)\n\n# TODO: Create figure with 2 subplots\nfig, axes = None  # Replace with plt.subplots(1, 2)\n\n# TODO: Line plot on first subplot\n# axes[0].plot(...)\n\n# TODO: Scatter plot on second subplot\n# axes[1].scatter(...)\n\nplt.tight_layout()\nplt.show()",
+    "solution": "import matplotlib.pyplot as plt\nimport pandas as pd\nfrom sklearn.datasets import load_iris\n\niris = load_iris()\ndf = pd.DataFrame(iris.data, columns=iris.feature_names)\n\n# Create figure with 2 subplots\nfig, axes = plt.subplots(1, 2, figsize=(12, 4))\n\n# Line plot on first subplot\naxes[0].plot(df['sepal length (cm)'], linewidth=2)\naxes[0].set_title('Sepal Length (Line)')\naxes[0].set_ylabel('Length')\n\n# Scatter plot on second subplot\naxes[1].scatter(df['sepal length (cm)'], df['sepal width (cm)'], alpha=0.5)\naxes[1].set_title('Sepal Length vs Width')\naxes[1].set_xlabel('Length')\naxes[1].set_ylabel('Width')\n\nplt.tight_layout()\nplt.show()",
+    "hints": ["Use plt.subplots(rows, cols) for multiple plots", "Use axes[i].plot() for line plots", "Use axes[i].scatter() for scatter plots"],
+    "xp": 125
+  },
+  {
+    "id": "p2_c8",
+    "title": "Heatmap for Correlation",
+    "difficulty": "medium",
+    "description": "Create a correlation matrix heatmap using seaborn.",
+    "starter_code": "import seaborn as sns\nimport matplotlib.pyplot as plt\nimport pandas as pd\nfrom sklearn.datasets import load_iris\n\niris = load_iris()\ndf = pd.DataFrame(iris.data, columns=iris.feature_names)\n\n# TODO: Compute correlation matrix\ncorr = None  # Replace with df.corr()\n\n# TODO: Create heatmap\n# sns.heatmap(...)\n\nplt.show()",
+    "solution": "import seaborn as sns\nimport matplotlib.pyplot as plt\nimport pandas as pd\nfrom sklearn.datasets import load_iris\n\niris = load_iris()\ndf = pd.DataFrame(iris.data, columns=iris.feature_names)\n\n# Compute correlation matrix\ncorr = df.corr()\n\n# Create heatmap\nplt.figure(figsize=(8, 6))\nsns.heatmap(corr, annot=True, cmap='coolwarm', square=True)\nplt.title('Feature Correlation Matrix')\nplt.show()",
+    "hints": ["Use df.corr() to compute correlations", "Use sns.heatmap() for visualization", "annot=True shows values in cells"],
+    "xp": 125
+  },
+  {
+    "id": "p2_c9",
+    "title": "Detect Outliers with IQR",
+    "difficulty": "hard",
+    "description": "Detect outliers using the Interquartile Range (IQR) method.",
+    "starter_code": "import pandas as pd\nimport numpy as np\n\ndf = pd.DataFrame({\n    'value': [1, 2, 3, 4, 5, 100, 6, 7, 8, 9]\n})\n\n# TODO: Calculate Q1, Q3, and IQR\nQ1 = None\nQ3 = None\nIQR = None\n\n# TODO: Find outliers (values < Q1 - 1.5*IQR or > Q3 + 1.5*IQR)\noutliers = None\n\nprint(f\"Q1: {Q1}, Q3: {Q3}, IQR: {IQR}\")\nprint(f\"Outliers:\\n{outliers}\")",
+    "solution": "import pandas as pd\nimport numpy as np\n\ndf = pd.DataFrame({\n    'value': [1, 2, 3, 4, 5, 100, 6, 7, 8, 9]\n})\n\n# Calculate Q1, Q3, and IQR\nQ1 = df['value'].quantile(0.25)\nQ3 = df['value'].quantile(0.75)\nIQR = Q3 - Q1\n\n# Find outliers\noutliers = df[(df['value'] < Q1 - 1.5*IQR) | (df['value'] > Q3 + 1.5*IQR)]\n\nprint(f\"Q1: {Q1}, Q3: {Q3}, IQR: {IQR}\")\nprint(f\"Outliers:\\n{outliers}\")",
+    "hints": ["Use .quantile(0.25) for Q1, .quantile(0.75) for Q3", "IQR = Q3 - Q1", "Use boolean indexing with | (OR) operator"],
+    "xp": 150
+  },
+  {
+    "id": "p2_c10",
+    "title": "Complete EDA Workflow",
+    "difficulty": "hard",
+    "description": "Perform full EDA: load, explore, check missing, detect outliers, and create visualization.",
+    "starter_code": "import pandas as pd\nimport numpy as np\nimport matplotlib.pyplot as plt\nfrom sklearn.datasets import load_iris\n\niris = load_iris()\ndf = pd.DataFrame(iris.data, columns=iris.feature_names)\ndf['species'] = iris.target_names[iris.target]\n\n# Step 1: Explore\nprint(f\"Shape: {df.shape}\")\nprint(df.head())\n\n# Step 2: Check missing\nprint(f\"Missing: {df.isnull().sum().sum()}\")\n\n# Step 3: Describe\nprint(df.describe())\n\n# Step 4: Correlation\ncorr = None  # TODO: Get correlation\n\n# Step 5: Visualize distributions\nfig, axes = None  # TODO: Create 2x2 subplots",
+    "solution": "import pandas as pd\nimport numpy as np\nimport matplotlib.pyplot as plt\nfrom sklearn.datasets import load_iris\n\niris = load_iris()\ndf = pd.DataFrame(iris.data, columns=iris.feature_names)\ndf['species'] = iris.target_names[iris.target]\n\n# Step 1: Explore\nprint(f\"Shape: {df.shape}\")\nprint(df.head())\n\n# Step 2: Check missing\nprint(f\"Missing: {df.isnull().sum().sum()}\")\n\n# Step 3: Describe\nprint(df.describe())\n\n# Step 4: Correlation\ncorr = df.iloc[:, :-1].corr()\nprint(corr)\n\n# Step 5: Visualize distributions\nfig, axes = plt.subplots(2, 2, figsize=(10, 8))\nnumeric_cols = df.select_dtypes(include=[np.number]).columns\nfor idx, col in enumerate(numeric_cols[:4]):\n    ax = axes[idx // 2, idx % 2]\n    ax.hist(df[col], bins=20, edgecolor='black')\n    ax.set_title(f'Distribution of {col}')\nplt.tight_layout()\nplt.show()",
+    "hints": ["Use df.shape to get dimensions", "Use df.describe() for statistics", "Use df.corr() for correlations", "Use plt.subplots() for multiple plots"],
+    "xp": 200
+  }
+]

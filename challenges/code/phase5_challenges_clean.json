@@ -1,0 +1,142 @@
+[
+  {
+    "id": 1,
+    "title": "K-Means on Iris Dataset",
+    "difficulty": "easy",
+    "description": "Use K-Means to cluster the iris dataset into 3 clusters and print the inertia.",
+    "starter_code": "from sklearn.datasets import load_iris\nfrom sklearn.cluster import KMeans\nfrom sklearn.preprocessing import StandardScaler\nimport numpy as np\n\niris = load_iris()\nX = iris.data\n\n# TODO: Scale the data and fit K-Means with 3 clusters\n# TODO: Print the inertia\n",
+    "solution": "from sklearn.datasets import load_iris\nfrom sklearn.cluster import KMeans\nfrom sklearn.preprocessing import StandardScaler\nimport numpy as np\n\niris = load_iris()\nX = iris.data\n\n# Scale the data\nscaler = StandardScaler()\nX_scaled = scaler.fit_transform(X)\n\n# Fit K-Means\nkmeans = KMeans(n_clusters=3, random_state=42)\nkmeans.fit(X_scaled)\n\nprint(f\"Inertia: {kmeans.inertia_:.2f}\")\nprint(f\"Cluster centers shape: {kmeans.cluster_centers_.shape}\")\nprint(f\"Cluster labels: {np.unique(kmeans.labels_)}\")\n",
+    "hints": [
+      "Always scale features before K-Means",
+      "Use StandardScaler for scaling",
+      "Access inertia with kmeans.inertia_"
+    ],
+    "xp": 75
+  },
+  {
+    "id": 2,
+    "title": "Finding Optimal K with Elbow Method",
+    "difficulty": "easy",
+    "description": "Use the elbow method to find the optimal number of clusters for the iris dataset.",
+    "starter_code": "from sklearn.datasets import load_iris\nfrom sklearn.cluster import KMeans\nfrom sklearn.preprocessing import StandardScaler\n\niris = load_iris()\nX = iris.data\nscaler = StandardScaler()\nX_scaled = scaler.fit_transform(X)\n\n# TODO: Test K values from 1 to 10 and store inertias\n# TODO: Print the inertia for each K\n",
+    "solution": "from sklearn.datasets import load_iris\nfrom sklearn.cluster import KMeans\nfrom sklearn.preprocessing import StandardScaler\n\niris = load_iris()\nX = iris.data\nscaler = StandardScaler()\nX_scaled = scaler.fit_transform(X)\n\ninertias = []\nK_range = range(1, 11)\n\nfor k in K_range:\n    kmeans = KMeans(n_clusters=k, random_state=42, n_init=10)\n    kmeans.fit(X_scaled)\n    inertias.append(kmeans.inertia_)\n    print(f\"K={k}: Inertia={kmeans.inertia_:.2f}\")\n\n# The elbow is typically around K=3-4\n",
+    "hints": [
+      "Use a loop to test multiple K values",
+      "Store inertia for each K",
+      "Look for the elbow point where inertia stops decreasing rapidly"
+    ],
+    "xp": 100
+  },
+  {
+    "id": 3,
+    "title": "DBSCAN Clustering",
+    "difficulty": "medium",
+    "description": "Apply DBSCAN clustering to the iris dataset and identify outliers.",
+    "starter_code": "from sklearn.datasets import load_iris\nfrom sklearn.cluster import DBSCAN\nfrom sklearn.preprocessing import StandardScaler\nimport numpy as np\n\niris = load_iris()\nX = iris.data\nscaler = StandardScaler()\nX_scaled = scaler.fit_transform(X)\n\n# TODO: Apply DBSCAN with eps=0.5 and min_samples=5\n# TODO: Count the number of clusters and outliers\n",
+    "solution": "from sklearn.datasets import load_iris\nfrom sklearn.cluster import DBSCAN\nfrom sklearn.preprocessing import StandardScaler\nimport numpy as np\n\niris = load_iris()\nX = iris.data\nscaler = StandardScaler()\nX_scaled = scaler.fit_transform(X)\n\n# Apply DBSCAN\ndbscan = DBSCAN(eps=0.5, min_samples=5)\nlabels = dbscan.fit_predict(X_scaled)\n\n# Count clusters and outliers\nn_clusters = len(set(labels)) - (1 if -1 in labels else 0)\nn_outliers = list(labels).count(-1)\n\nprint(f\"Number of clusters: {n_clusters}\")\nprint(f\"Number of outliers: {n_outliers}\")\nprint(f\"Unique labels: {sorted(set(labels))}\")\n",
+    "hints": [
+      "DBSCAN labels outliers as -1",
+      "Use eps=0.5 and min_samples=5",
+      "Count unique labels and subtract 1 if -1 is present"
+    ],
+    "xp": 125
+  },
+  {
+    "id": 4,
+    "title": "PCA for Dimensionality Reduction",
+    "difficulty": "medium",
+    "description": "Apply PCA to reduce iris dataset from 4D to 2D and visualize explained variance.",
+    "starter_code": "from sklearn.datasets import load_iris\nfrom sklearn.decomposition import PCA\nfrom sklearn.preprocessing import StandardScaler\n\niris = load_iris()\nX = iris.data\nscaler = StandardScaler()\nX_scaled = scaler.fit_transform(X)\n\n# TODO: Apply PCA with 2 components\n# TODO: Print explained variance ratio\n",
+    "solution": "from sklearn.datasets import load_iris\nfrom sklearn.decomposition import PCA\nfrom sklearn.preprocessing import StandardScaler\n\niris = load_iris()\nX = iris.data\nscaler = StandardScaler()\nX_scaled = scaler.fit_transform(X)\n\n# Apply PCA with 2 components\npca = PCA(n_components=2)\nX_pca = pca.fit_transform(X_scaled)\n\nprint(f\"Explained variance ratio: {pca.explained_variance_ratio_}\")\nprint(f\"Total variance explained: {sum(pca.explained_variance_ratio_):.2%}\")\nprint(f\"PCA components shape: {X_pca.shape}\")\nprint(f\"First component explains: {pca.explained_variance_ratio_[0]:.2%}\")\n",
+    "hints": [
+      "Always scale before PCA",
+      "explained_variance_ratio_ shows variance per component",
+      "Sum of ratios tells total variance retained"
+    ],
+    "xp": 100
+  },
+  {
+    "id": 5,
+    "title": "Silhouette Score for Cluster Evaluation",
+    "difficulty": "medium",
+    "description": "Calculate silhouette score for K-Means clustering with different K values.",
+    "starter_code": "from sklearn.datasets import load_iris\nfrom sklearn.cluster import KMeans\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.metrics import silhouette_score\n\niris = load_iris()\nX = iris.data\nscaler = StandardScaler()\nX_scaled = scaler.fit_transform(X)\n\n# TODO: Test K from 2 to 8 and calculate silhouette score\n# TODO: Find which K has the best silhouette score\n",
+    "solution": "from sklearn.datasets import load_iris\nfrom sklearn.cluster import KMeans\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.metrics import silhouette_score\n\niris = load_iris()\nX = iris.data\nscaler = StandardScaler()\nX_scaled = scaler.fit_transform(X)\n\nsilhouette_scores = []\nK_range = range(2, 9)\n\nfor k in K_range:\n    kmeans = KMeans(n_clusters=k, random_state=42, n_init=10)\n    labels = kmeans.fit_predict(X_scaled)\n    score = silhouette_score(X_scaled, labels)\n    silhouette_scores.append(score)\n    print(f\"K={k}: Silhouette={score:.3f}\")\n\nbest_k = K_range[silhouette_scores.index(max(silhouette_scores))]\nprint(f\"\\nBest K: {best_k}\")\n",
+    "hints": [
+      "Silhouette score ranges from -1 to 1",
+      "Higher is better (1 = perfect separation)",
+      "Use silhouette_score from sklearn.metrics"
+    ],
+    "xp": 150
+  },
+  {
+    "id": 6,
+    "title": "Hierarchical Clustering",
+    "difficulty": "medium",
+    "description": "Apply agglomerative hierarchical clustering to iris dataset.",
+    "starter_code": "from sklearn.datasets import load_iris\nfrom sklearn.cluster import AgglomerativeClustering\nfrom sklearn.preprocessing import StandardScaler\n\niris = load_iris()\nX = iris.data\nscaler = StandardScaler()\nX_scaled = scaler.fit_transform(X)\n\n# TODO: Apply AgglomerativeClustering with 3 clusters\n# TODO: Print cluster labels and unique clusters\n",
+    "solution": "from sklearn.datasets import load_iris\nfrom sklearn.cluster import AgglomerativeClustering\nfrom sklearn.preprocessing import StandardScaler\nimport numpy as np\n\niris = load_iris()\nX = iris.data\nscaler = StandardScaler()\nX_scaled = scaler.fit_transform(X)\n\n# Apply hierarchical clustering\nhierarchical = AgglomerativeClustering(n_clusters=3, linkage='ward')\nlabels = hierarchical.fit_predict(X_scaled)\n\nprint(f\"Number of clusters: {len(set(labels))}\")\nprint(f\"Cluster distribution: {np.bincount(labels)}\")\nprint(f\"First 10 labels: {labels[:10]}\")\n",
+    "hints": [
+      "Use 'ward' linkage for hierarchical clustering",
+      "fit_predict returns cluster labels",
+      "You specify n_clusters upfront"
+    ],
+    "xp": 125
+  },
+  {
+    "id": 7,
+    "title": "PCA Explained Variance Analysis",
+    "difficulty": "hard",
+    "description": "Find how many PCA components needed to explain 95% of variance.",
+    "starter_code": "from sklearn.datasets import load_iris\nfrom sklearn.decomposition import PCA\nfrom sklearn.preprocessing import StandardScaler\nimport numpy as np\n\niris = load_iris()\nX = iris.data\nscaler = StandardScaler()\nX_scaled = scaler.fit_transform(X)\n\n# TODO: Use PCA with all 4 components\n# TODO: Find cumulative variance explained\n# TODO: Determine how many components needed for 95% variance\n",
+    "solution": "from sklearn.datasets import load_iris\nfrom sklearn.decomposition import PCA\nfrom sklearn.preprocessing import StandardScaler\nimport numpy as np\n\niris = load_iris()\nX = iris.data\nscaler = StandardScaler()\nX_scaled = scaler.fit_transform(X)\n\n# PCA with all components\npca = PCA()\npca.fit(X_scaled)\n\n# Calculate cumulative variance\ncumsum = np.cumsum(pca.explained_variance_ratio_)\nprint(\"Cumulative variance ratio:\")\nfor i, val in enumerate(cumsum):\n    print(f\"Component {i+1}: {val:.2%}\")\n\n# Find components needed for 95%\nn_components_95 = np.argmax(cumsum >= 0.95) + 1\nprint(f\"\\nComponents needed for 95% variance: {n_components_95}\")\n",
+    "hints": [
+      "Use np.cumsum for cumulative sum",
+      "Use np.argmax to find threshold crossing",
+      "95% is common threshold for dimensionality reduction"
+    ],
+    "xp": 200
+  },
+  {
+    "id": 8,
+    "title": "Feature Scaling Impact on K-Means",
+    "difficulty": "hard",
+    "description": "Compare K-Means results with and without scaling on iris dataset.",
+    "starter_code": "from sklearn.datasets import load_iris\nfrom sklearn.cluster import KMeans\nfrom sklearn.preprocessing import StandardScaler\n\niris = load_iris()\nX = iris.data\n\n# TODO: K-Means WITHOUT scaling\n# TODO: K-Means WITH scaling\n# TODO: Compare inertias and see how scaling affects clustering\n",
+    "solution": "from sklearn.datasets import load_iris\nfrom sklearn.cluster import KMeans\nfrom sklearn.preprocessing import StandardScaler\n\niris = load_iris()\nX = iris.data\n\n# K-Means without scaling\nkmeans_unscaled = KMeans(n_clusters=3, random_state=42, n_init=10)\nkmeans_unscaled.fit(X)\ninertia_unscaled = kmeans_unscaled.inertia_\n\n# K-Means with scaling\nscaler = StandardScaler()\nX_scaled = scaler.fit_transform(X)\nkmeans_scaled = KMeans(n_clusters=3, random_state=42, n_init=10)\nkmeans_scaled.fit(X_scaled)\ninertia_scaled = kmeans_scaled.inertia_\n\nprint(f\"Inertia (unscaled): {inertia_unscaled:.2f}\")\nprint(f\"Inertia (scaled): {inertia_scaled:.2f}\")\nprint(f\"\\nUnscaled labels match rate: {sum(kmeans_unscaled.labels_ == kmeans_unscaled.labels_) / len(X):.2%}\")\nprint(\"Note: Scaling changes results because larger-scale features dominate distance.\")\n",
+    "hints": [
+      "Compare inertia values before and after scaling",
+      "Large-scale features dominate without scaling",
+      "Always scale for distance-based algorithms"
+    ],
+    "xp": 200
+  },
+  {
+    "id": 9,
+    "title": "Isolation Forest for Anomaly Detection",
+    "difficulty": "hard",
+    "description": "Use Isolation Forest to detect anomalies in iris dataset.",
+    "starter_code": "from sklearn.datasets import load_iris\nfrom sklearn.ensemble import IsolationForest\nfrom sklearn.preprocessing import StandardScaler\nimport numpy as np\n\niris = load_iris()\nX = iris.data\nscaler = StandardScaler()\nX_scaled = scaler.fit_transform(X)\n\n# TODO: Apply IsolationForest with contamination=0.1\n# TODO: Count and identify anomalies\n",
+    "solution": "from sklearn.datasets import load_iris\nfrom sklearn.ensemble import IsolationForest\nfrom sklearn.preprocessing import StandardScaler\nimport numpy as np\n\niris = load_iris()\nX = iris.data\nscaler = StandardScaler()\nX_scaled = scaler.fit_transform(X)\n\n# Apply Isolation Forest\niso_forest = IsolationForest(contamination=0.1, random_state=42)\npredictions = iso_forest.fit_predict(X_scaled)\n\n# Count anomalies (labeled as -1)\nn_anomalies = sum(predictions == -1)\nn_normal = sum(predictions == 1)\n\nprint(f\"Normal points: {n_normal}\")\nprint(f\"Anomalies: {n_anomalies}\")\nprint(f\"Anomaly indices: {np.where(predictions == -1)[0]}\")\nprint(f\"\\nAnomaly scores (lower = more anomalous):\")\nscores = iso_forest.score_samples(X_scaled)\nfor idx in np.where(predictions == -1)[0]:\n    print(f\"  Sample {idx}: {scores[idx]:.3f}\")\n",
+    "hints": [
+      "IsolationForest returns -1 for anomalies, 1 for normal",
+      "contamination parameter is ratio of anomalies",
+      "Use score_samples() for anomaly scores"
+    ],
+    "xp": 200
+  },
+  {
+    "id": 10,
+    "title": "Comparing Clustering Algorithms",
+    "difficulty": "hard",
+    "description": "Apply K-Means, DBSCAN, and Hierarchical clustering, compare silhouette scores.",
+    "starter_code": "from sklearn.datasets import load_iris\nfrom sklearn.cluster import KMeans, DBSCAN, AgglomerativeClustering\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.metrics import silhouette_score\n\niris = load_iris()\nX = iris.data\nscaler = StandardScaler()\nX_scaled = scaler.fit_transform(X)\n\n# TODO: Apply all three clustering algorithms\n# TODO: Calculate silhouette score for each\n# TODO: Compare results\n",
+    "solution": "from sklearn.datasets import load_iris\nfrom sklearn.cluster import KMeans, DBSCAN, AgglomerativeClustering\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.metrics import silhouette_score\n\niris = load_iris()\nX = iris.data\nscaler = StandardScaler()\nX_scaled = scaler.fit_transform(X)\n\n# K-Means\nkmeans = KMeans(n_clusters=3, random_state=42, n_init=10)\nlabels_kmeans = kmeans.fit_predict(X_scaled)\nscore_kmeans = silhouette_score(X_scaled, labels_kmeans)\n\n# DBSCAN\ndbscan = DBSCAN(eps=0.5, min_samples=5)\nlabels_dbscan = dbscan.fit_predict(X_scaled)\nif len(set(labels_dbscan)) > 1:\n    score_dbscan = silhouette_score(X_scaled, labels_dbscan)\nelse:\n    score_dbscan = -1\n\n# Hierarchical\nhierarchical = AgglomerativeClustering(n_clusters=3, linkage='ward')\nlabels_hier = hierarchical.fit_predict(X_scaled)\nscore_hier = silhouette_score(X_scaled, labels_hier)\n\nprint(f\"K-Means Silhouette:      {score_kmeans:.3f}\")\nprint(f\"DBSCAN Silhouette:       {score_dbscan:.3f}\")\nprint(f\"Hierarchical Silhouette: {score_hier:.3f}\")\nprint(f\"\\nBest algorithm: {max(('K-Means', score_kmeans), ('DBSCAN', score_dbscan), ('Hierarchical', score_hier), key=lambda x: x[1])[0]}\")\n",
+    "hints": [
+      "Compare using silhouette_score",
+      "DBSCAN may produce single cluster or outliers",
+      "Silhouette > 0.5 generally indicates good separation"
+    ],
+    "xp": 200
+  }
+]

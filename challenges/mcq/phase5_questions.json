@@ -1,0 +1,227 @@
+[
+  {
+    "id": 1,
+    "section": "Clustering Fundamentals",
+    "difficulty": "easy",
+    "question": "What is the main difference between supervised and unsupervised learning?",
+    "options": [
+      "Unsupervised learning has no target variable to predict",
+      "Supervised learning uses fewer features",
+      "Unsupervised learning is faster",
+      "Supervised learning doesn't need labeled data"
+    ],
+    "correct": 0,
+    "explanation": "Unsupervised learning discovers patterns in data without predefined labels or target variables. Supervised learning uses labeled data to train models for prediction.",
+    "xp": 50
+  },
+  {
+    "id": 2,
+    "section": "K-Means Clustering",
+    "difficulty": "easy",
+    "question": "In K-Means clustering, what does 'K' represent?",
+    "options": [
+      "Number of clusters to create",
+      "Number of features in the dataset",
+      "Number of iterations to run",
+      "Number of data points"
+    ],
+    "correct": 0,
+    "explanation": "K in K-Means represents the number of clusters you want to partition your data into. It must be specified before running the algorithm.",
+    "xp": 50
+  },
+  {
+    "id": 3,
+    "section": "K-Means Clustering",
+    "difficulty": "easy",
+    "question": "What is the objective function that K-Means minimizes?",
+    "options": [
+      "Within-cluster sum of squared distances",
+      "Between-cluster sum of distances",
+      "Total variance in the dataset",
+      "Number of misclassified points"
+    ],
+    "correct": 0,
+    "explanation": "K-Means minimizes the within-cluster sum of squared distances (inertia), which measures how tightly clustered the points are around their cluster centers.",
+    "xp": 50
+  },
+  {
+    "id": 4,
+    "section": "K-Means Clustering",
+    "difficulty": "medium",
+    "question": "What is a major limitation of K-Means clustering?",
+    "options": [
+      "It requires specifying K in advance, which may not match true clusters",
+      "It cannot handle numerical data",
+      "It always finds the global optimum",
+      "It requires labels for each data point"
+    ],
+    "correct": 0,
+    "explanation": "K-Means requires you to specify K before clustering, but you may not know the true number of clusters. Also, it can converge to local optima depending on initialization.",
+    "xp": 75
+  },
+  {
+    "id": 5,
+    "section": "DBSCAN",
+    "difficulty": "medium",
+    "question": "What advantage does DBSCAN have over K-Means?",
+    "options": [
+      "It automatically determines the number of clusters and detects outliers",
+      "It's faster on all datasets",
+      "It requires fewer parameters",
+      "It always finds better clusters"
+    ],
+    "correct": 0,
+    "explanation": "DBSCAN doesn't require specifying K in advance and can identify outliers as points that don't belong to any dense cluster, unlike K-Means which assigns all points.",
+    "xp": 100
+  },
+  {
+    "id": 6,
+    "section": "DBSCAN",
+    "difficulty": "medium",
+    "question": "In DBSCAN, what are the two main parameters?",
+    "options": [
+      "eps (epsilon) - maximum distance, min_samples - minimum points in neighborhood",
+      "K and threshold",
+      "learning_rate and iterations",
+      "n_clusters and max_distance"
+    ],
+    "correct": 0,
+    "explanation": "DBSCAN uses eps (maximum distance for neighbors) and min_samples (minimum points in a neighborhood) to define dense regions and identify clusters.",
+    "xp": 75
+  },
+  {
+    "id": 7,
+    "section": "PCA",
+    "difficulty": "medium",
+    "question": "What is Principal Component Analysis (PCA) primarily used for?",
+    "options": [
+      "Reducing dimensionality while preserving variance in the data",
+      "Removing all features from a dataset",
+      "Converting categorical data to numerical",
+      "Imputing missing values"
+    ],
+    "correct": 0,
+    "explanation": "PCA is a dimensionality reduction technique that transforms high-dimensional data into a lower-dimensional space while retaining maximum variance.",
+    "xp": 75
+  },
+  {
+    "id": 8,
+    "section": "PCA",
+    "difficulty": "medium",
+    "question": "What does explained variance ratio tell you in PCA?",
+    "options": [
+      "Percentage of total variance captured by each principal component",
+      "How well features correlate with each other",
+      "The number of clusters in the data",
+      "The accuracy of the clustering"
+    ],
+    "correct": 0,
+    "explanation": "Explained variance ratio shows what fraction of the total variance each principal component explains. Sum of first k components tells you total variance retained.",
+    "xp": 100
+  },
+  {
+    "id": 9,
+    "section": "Hierarchical Clustering",
+    "difficulty": "medium",
+    "question": "What is the main difference between agglomerative and divisive hierarchical clustering?",
+    "options": [
+      "Agglomerative starts with points as clusters and merges, divisive starts with one cluster and splits",
+      "Agglomerative is faster than divisive",
+      "Divisive requires more memory",
+      "They produce identical results"
+    ],
+    "correct": 0,
+    "explanation": "Agglomerative (bottom-up) starts with each point as its own cluster and merges similar clusters. Divisive (top-down) starts with all points in one cluster and splits.",
+    "xp": 75
+  },
+  {
+    "id": 10,
+    "section": "Clustering Evaluation",
+    "difficulty": "medium",
+    "question": "What is the silhouette score used for in clustering?",
+    "options": [
+      "Measuring how similar points are to their own cluster vs other clusters",
+      "Counting the number of clusters found",
+      "Determining if data is normally distributed",
+      "Checking for multicollinearity"
+    ],
+    "correct": 0,
+    "explanation": "Silhouette score (range -1 to 1) measures cluster quality: values near 1 mean well-separated clusters, near 0 mean overlapping clusters, negative means wrong assignment.",
+    "xp": 100
+  },
+  {
+    "id": 11,
+    "section": "t-SNE",
+    "difficulty": "medium",
+    "question": "What does t-SNE do differently from PCA?",
+    "options": [
+      "t-SNE preserves local structure and is better for visualization; PCA preserves global structure",
+      "t-SNE is always faster than PCA",
+      "t-SNE handles categorical data better",
+      "t-SNE requires labels for training"
+    ],
+    "correct": 0,
+    "explanation": "t-SNE excels at preserving local neighborhoods and is excellent for 2D/3D visualization. PCA is faster and preserves global variance. t-SNE is non-linear.",
+    "xp": 100
+  },
+  {
+    "id": 12,
+    "section": "Anomaly Detection",
+    "difficulty": "hard",
+    "question": "What is an advantage of Isolation Forest for anomaly detection compared to distance-based methods?",
+    "options": [
+      "It works well in high dimensions by isolating anomalies directly rather than measuring distances",
+      "It requires fewer parameters",
+      "It's faster on all datasets",
+      "It doesn't need to fit a model"
+    ],
+    "correct": 0,
+    "explanation": "Isolation Forest avoids distance calculations in high dimensions by isolating anomalies via random splits. Distance-based methods suffer from curse of dimensionality.",
+    "xp": 150
+  },
+  {
+    "id": 13,
+    "section": "Feature Scaling in Unsupervised Learning",
+    "difficulty": "hard",
+    "question": "Why is feature scaling particularly important for distance-based clustering like K-Means?",
+    "options": [
+      "Features with larger scales dominate distance calculations, affecting which points are grouped together",
+      "Scaling improves algorithm speed",
+      "It makes the algorithm deterministic",
+      "It reduces memory usage"
+    ],
+    "correct": 0,
+    "explanation": "Distance-based algorithms like K-Means treat features equally in distance calculation. Without scaling, large-scale features dominate, biasing clusters. Always scale!",
+    "xp": 150
+  },
+  {
+    "id": 14,
+    "section": "Choosing Clustering Algorithm",
+    "difficulty": "hard",
+    "question": "When would you prefer DBSCAN over K-Means for a real-world problem?",
+    "options": [
+      "When clusters have different densities and you want to detect outliers without assuming number of clusters",
+      "When you want the fastest algorithm always",
+      "When data is guaranteed to be spherical",
+      "When you have very few data points"
+    ],
+    "correct": 0,
+    "explanation": "DBSCAN suits problems with non-uniform density clusters, when K is unknown, and when outliers are important. K-Means assumes spherical, equal-sized clusters.",
+    "xp": 125
+  },
+  {
+    "id": 15,
+    "section": "PCA Interpretation",
+    "difficulty": "hard",
+    "question": "If the first principal component explains 80% of variance, what does this mean for your analysis?",
+    "options": [
+      "You can reduce to 1D while retaining 80% of the information in the original features",
+      "20% of your data is outliers",
+      "All features are equally important",
+      "You should remove 80% of your features"
+    ],
+    "correct": 0,
+    "explanation": "80% explained variance means 1 principal component captures 80% of total variance. This suggests you can use 1D instead of original features with minimal information loss.",
+    "xp": 125
+  }
+]

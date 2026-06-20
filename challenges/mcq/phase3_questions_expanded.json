@@ -1,0 +1,227 @@
+[
+  {
+    "id": "p3_q1",
+    "section": "Pipelines",
+    "difficulty": "easy",
+    "question": "What is the main advantage of using a Pipeline over manually fitting transformers and models separately?",
+    "options": [
+      "Pipelines execute faster than individual steps",
+      "Pipelines prevent data leakage by ensuring transformers fit only on training data",
+      "Pipelines automatically tune hyperparameters",
+      "Pipelines require fewer lines of code to write"
+    ],
+    "correct": "Pipelines prevent data leakage by ensuring transformers fit only on training data",
+    "explanation": "The primary benefit of pipelines is preventing data leakage. When you fit transformers separately on the entire dataset before splitting, test data influences the transformation, leading to optimistic performance estimates.",
+    "xp": 50
+  },
+  {
+    "id": "p3_q2",
+    "section": "Pipelines",
+    "difficulty": "medium",
+    "question": "In a Pipeline with steps [('scaler', StandardScaler()), ('model', LogisticRegression())], what happens when you call pipeline.fit(X_train, y_train)?",
+    "options": [
+      "Only the model is fit; the scaler is ignored",
+      "The scaler's fit_transform() is called on X_train, then the model's fit() is called on scaled data",
+      "Both scaler and model are fit independently on X_train",
+      "The scaler fits on X_train and the model fits on X_test"
+    ],
+    "correct": "The scaler's fit_transform() is called on X_train, then the model's fit() is called on scaled data",
+    "explanation": "In a pipeline, all transformers (except the last step) use fit_transform() on the training data in order. The final estimator uses fit() on the transformed data.",
+    "xp": 75
+  },
+  {
+    "id": "p3_q3",
+    "section": "Pipelines",
+    "difficulty": "easy",
+    "question": "How do you access a specific step in a fitted pipeline?",
+    "options": [
+      "pipeline[0] or pipeline['step_name']",
+      "pipeline.steps[0]",
+      "pipeline.named_steps['step_name']",
+      "pipeline.get_step('step_name')"
+    ],
+    "correct": "pipeline.named_steps['step_name']",
+    "explanation": "Use .named_steps dictionary to access pipeline steps by name: pipeline.named_steps['scaler'].scale_",
+    "xp": 50
+  },
+  {
+    "id": "p3_q4",
+    "section": "Pipelines",
+    "difficulty": "hard",
+    "question": "If you have a pipeline with PolynomialFeatures(degree=2) before StandardScaler, what is the order of operations when predicting?",
+    "options": [
+      "StandardScaler.transform() → PolynomialFeatures.transform()",
+      "PolynomialFeatures.transform() → StandardScaler.transform()",
+      "StandardScaler.inverse_transform() → PolynomialFeatures.inverse_transform()",
+      "Both are applied to features independently"
+    ],
+    "correct": "PolynomialFeatures.transform() → StandardScaler.transform()",
+    "explanation": "Pipeline steps are applied in order: first PolynomialFeatures generates polynomial terms, then StandardScaler normalizes them. The same order applies to both fit and predict.",
+    "xp": 100
+  },
+  {
+    "id": "p3_q5",
+    "section": "ColumnTransformer",
+    "difficulty": "medium",
+    "question": "What is the purpose of ColumnTransformer in scikit-learn?",
+    "options": [
+      "To select specific columns from a DataFrame",
+      "To apply different transformations to different groups of columns",
+      "To rename columns in a dataset",
+      "To perform cross-validation on columns"
+    ],
+    "correct": "To apply different transformations to different groups of columns",
+    "explanation": "ColumnTransformer enables applying different preprocessing steps to different subsets of features (e.g., StandardScaler to numeric, OneHotEncoder to categorical).",
+    "xp": 50
+  },
+  {
+    "id": "p3_q6",
+    "section": "ColumnTransformer",
+    "difficulty": "medium",
+    "question": "In this ColumnTransformer, which columns receive OneHotEncoding?\n```\nColumnTransformer([\n    ('num', StandardScaler(), ['age', 'income']),\n    ('cat', OneHotEncoder(), ['color', 'size'])\n])\n```",
+    "options": [
+      "['age', 'income']",
+      "['color', 'size']",
+      "['age', 'income', 'color', 'size']",
+      "It depends on the order of the data"
+    ],
+    "correct": "['color', 'size']",
+    "explanation": "The second transformer (OneHotEncoder) is applied to columns ['color', 'size']. Each tuple specifies (name, transformer, columns).",
+    "xp": 75
+  },
+  {
+    "id": "p3_q7",
+    "section": "ColumnTransformer",
+    "difficulty": "hard",
+    "question": "What does remainder='drop' do in ColumnTransformer?",
+    "options": [
+      "Removes rows with missing values",
+      "Drops the transformer that performs worst",
+      "Ignores columns not specified in any transformer",
+      "Removes duplicate columns"
+    ],
+    "correct": "Ignores columns not specified in any transformer",
+    "explanation": "remainder='drop' (default) excludes any columns not mentioned in the transformers. Use remainder='passthrough' to keep unmention columns unchanged.",
+    "xp": 75
+  },
+  {
+    "id": "p3_q8",
+    "section": "ColumnTransformer",
+    "difficulty": "medium",
+    "question": "What is the advantage of using make_column_selector() with ColumnTransformer?",
+    "options": [
+      "It automatically selects the best performing columns",
+      "It dynamically selects columns based on dtype without hardcoding column names",
+      "It removes columns with high correlation",
+      "It optimizes the order of transformations"
+    ],
+    "correct": "It dynamically selects columns based on dtype without hardcoding column names",
+    "explanation": "make_column_selector() lets you select columns by criteria (e.g., dtype_include=['float64']) instead of listing names, making code more maintainable.",
+    "xp": 75
+  },
+  {
+    "id": "p3_q9",
+    "section": "GridSearchCV",
+    "difficulty": "easy",
+    "question": "What does GridSearchCV do?",
+    "options": [
+      "Automatically selects the best machine learning algorithm",
+      "Exhaustively searches over specified hyperparameter combinations and returns the best model",
+      "Performs grid-based feature selection",
+      "Converts grid-structured data into a search matrix"
+    ],
+    "correct": "Exhaustively searches over specified hyperparameter combinations and returns the best model",
+    "explanation": "GridSearchCV tries all combinations of hyperparameters you provide and returns the best-performing combination based on cross-validation.",
+    "xp": 50
+  },
+  {
+    "id": "p3_q10",
+    "section": "GridSearchCV",
+    "difficulty": "medium",
+    "question": "If param_grid={'C': [0.1, 1, 10], 'kernel': ['linear', 'rbf']} and cv=5, how many models are trained?",
+    "options": [
+      "3 (one per C value)",
+      "5 (one per fold)",
+      "30 (3 × 2 × 5)",
+      "15 (3 × 5)"
+    ],
+    "correct": "30 (3 × 2 × 5)",
+    "explanation": "GridSearchCV trains one model for each combination of hyperparameters in each fold. 3 C values × 2 kernels × 5 folds = 30 models.",
+    "xp": 75
+  },
+  {
+    "id": "p3_q11",
+    "section": "GridSearchCV",
+    "difficulty": "medium",
+    "question": "How do you access the best hyperparameters found by GridSearchCV?",
+    "options": [
+      "grid.best_params",
+      "grid.best_parameters()",
+      "grid.best_params_",
+      "grid.get_best_params()"
+    ],
+    "correct": "grid.best_params_",
+    "explanation": "Use the .best_params_ attribute (note the trailing underscore) to access the optimal hyperparameter dictionary.",
+    "xp": 50
+  },
+  {
+    "id": "p3_q12",
+    "section": "GridSearchCV",
+    "difficulty": "hard",
+    "question": "When using GridSearchCV with a Pipeline, how do you specify hyperparameters for the SVC step?\n```\npipe = Pipeline([('scaler', StandardScaler()), ('svc', SVC())])\nparam_grid = { ??? : [0.1, 1, 10] }\n```",
+    "options": [
+      "'C'",
+      "'svc_C'",
+      "'svc__C'",
+      "'StandardScaler__C'"
+    ],
+    "correct": "'svc__C'",
+    "explanation": "Use the format 'step_name__parameter_name' to specify hyperparameters for pipeline steps. The double underscore separates step name from parameter.",
+    "xp": 100
+  },
+  {
+    "id": "p3_q13",
+    "section": "GridSearchCV",
+    "difficulty": "easy",
+    "question": "What does cv=5 mean in GridSearchCV?",
+    "options": [
+      "Use 5% of data for validation",
+      "Train 5 separate models",
+      "Use 5-fold cross-validation to evaluate hyperparameters",
+      "Split data into 5 random subsets"
+    ],
+    "correct": "Use 5-fold cross-validation to evaluate hyperparameters",
+    "explanation": "cv=5 means data is split into 5 folds. Each fold is held out once for validation while others are used for training.",
+    "xp": 50
+  },
+  {
+    "id": "p3_q14",
+    "section": "GridSearchCV",
+    "difficulty": "medium",
+    "question": "Why would you use RandomizedSearchCV instead of GridSearchCV?",
+    "options": [
+      "RandomizedSearchCV always finds better hyperparameters",
+      "RandomizedSearchCV is faster when the hyperparameter space is very large",
+      "RandomizedSearchCV guarantees the global optimum",
+      "RandomizedSearchCV works with non-numeric hyperparameters only"
+    ],
+    "correct": "RandomizedSearchCV is faster when the hyperparameter space is very large",
+    "explanation": "RandomizedSearchCV samples a random subset of hyperparameter combinations, making it much faster than exhaustive search for large grids.",
+    "xp": 75
+  },
+  {
+    "id": "p3_q15",
+    "section": "Integration",
+    "difficulty": "hard",
+    "question": "Combining all concepts: You have a dataset with numeric and categorical features. You want to use GridSearchCV to tune hyperparameters of an SVM inside a pipeline with mixed-type preprocessing. What's the correct structure?",
+    "options": [
+      "Pipeline → GridSearchCV wrapping it",
+      "GridSearchCV → Pipeline wrapping ColumnTransformer",
+      "Pipeline([ColumnTransformer, SVC]) → GridSearchCV wrapping it",
+      "GridSearchCV([ColumnTransformer, SVC]) → Pipeline"
+    ],
+    "correct": "Pipeline([ColumnTransformer, SVC]) → GridSearchCV wrapping it",
+    "explanation": "Create a pipeline with ColumnTransformer (for mixed types) and your estimator, then wrap the entire pipeline in GridSearchCV. This ensures preprocessing is tuned along with hyperparameters.",
+    "xp": 150
+  }
+]

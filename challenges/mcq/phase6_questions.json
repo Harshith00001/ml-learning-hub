@@ -1,0 +1,227 @@
+[
+  {
+    "id": 1,
+    "section": "Classification Metrics",
+    "difficulty": "easy",
+    "question": "What is the main problem with using accuracy as the only metric for imbalanced datasets?",
+    "options": [
+      "A model that always predicts the majority class gets high accuracy despite being useless",
+      "Accuracy is too slow to compute",
+      "Accuracy requires labeled data",
+      "Accuracy doesn't work with multiclass problems"
+    ],
+    "correct": 0,
+    "explanation": "With imbalanced data (e.g., 95% negative), a model always predicting negative gets 95% accuracy but never identifies positives. Use precision, recall, and F1 instead.",
+    "xp": 50
+  },
+  {
+    "id": 2,
+    "section": "Precision vs Recall",
+    "difficulty": "easy",
+    "question": "In medical diagnosis, when false negatives (missing disease) are very costly, which metric should you prioritize?",
+    "options": [
+      "Recall (sensitivity) - catch all cases, even if some false positives",
+      "Precision - minimize false alarms",
+      "Accuracy - overall correctness",
+      "F1 score - balanced metric"
+    ],
+    "correct": 0,
+    "explanation": "Missing a disease is worse than false alarm, so prioritize recall. Use threshold tuning to trade precision for recall.",
+    "xp": 50
+  },
+  {
+    "id": 3,
+    "section": "F1 Score",
+    "difficulty": "easy",
+    "question": "What does F1 score measure?",
+    "options": [
+      "Harmonic mean of precision and recall, balancing both metrics",
+      "Average of accuracy and precision",
+      "Maximum of precision and recall",
+      "Ratio of true positives to all predictions"
+    ],
+    "correct": 0,
+    "explanation": "F1 = 2 * (precision * recall) / (precision + recall). It's useful when you want balance between false positives and false negatives.",
+    "xp": 50
+  },
+  {
+    "id": 4,
+    "section": "ROC and AUC",
+    "difficulty": "medium",
+    "question": "What does ROC AUC measure?",
+    "options": [
+      "Ability to distinguish between classes across all classification thresholds",
+      "The number of correct predictions",
+      "Precision at a fixed threshold",
+      "Time complexity of the model"
+    ],
+    "correct": 0,
+    "explanation": "ROC plots true positive rate vs false positive rate. AUC (area under curve) ranges 0-1: 0.5=random, 1.0=perfect. Threshold-independent evaluation.",
+    "xp": 100
+  },
+  {
+    "id": 5,
+    "section": "Cross-Validation",
+    "difficulty": "medium",
+    "question": "Why is k-fold cross-validation better than a single train/test split?",
+    "options": [
+      "Uses all data for both training and evaluation, reducing variance in performance estimates",
+      "It's always faster",
+      "It prevents overfitting automatically",
+      "It doesn't require any hyperparameter tuning"
+    ],
+    "correct": 0,
+    "explanation": "k-fold (e.g., 5-fold) trains k models, each evaluating on different fold. More robust estimate with less waste of data.",
+    "xp": 75
+  },
+  {
+    "id": 6,
+    "section": "Stratified K-Fold",
+    "difficulty": "medium",
+    "question": "Why use stratified k-fold instead of regular k-fold for imbalanced data?",
+    "options": [
+      "Each fold maintains same class distribution as original data, preventing skewed validation",
+      "It's faster than regular k-fold",
+      "It gives higher scores",
+      "It doesn't require scaling"
+    ],
+    "correct": 0,
+    "explanation": "Regular k-fold might put all minority class in one fold. Stratified ensures each fold has representative class distribution.",
+    "xp": 75
+  },
+  {
+    "id": 7,
+    "section": "Feature Selection",
+    "difficulty": "medium",
+    "question": "What is the main goal of feature selection?",
+    "options": [
+      "Reduce number of features while maintaining (or improving) model performance",
+      "Increase model complexity",
+      "Make features more interpretable",
+      "Reduce training time by using fewer samples"
+    ],
+    "correct": 0,
+    "explanation": "Feature selection removes irrelevant/redundant features: simpler models, faster training, better generalization, easier interpretation.",
+    "xp": 75
+  },
+  {
+    "id": 8,
+    "section": "Feature Importance",
+    "difficulty": "medium",
+    "question": "Which method for feature selection is model-agnostic (works with any model)?",
+    "options": [
+      "Permutation importance - shuffles features and measures performance drop",
+      "Tree feature importance - only works with tree models",
+      "Logistic regression coefficients - only works with linear models",
+      "Correlation with target - ignores interactions"
+    ],
+    "correct": 0,
+    "explanation": "Permutation importance works by: shuffle feature -> measure performance drop. Universal across all model types.",
+    "xp": 100
+  },
+  {
+    "id": 9,
+    "section": "Model Calibration",
+    "difficulty": "medium",
+    "question": "What does model calibration ensure?",
+    "options": [
+      "Predicted probabilities match true probabilities (95% confidence = 95% correct)",
+      "The model trains faster",
+      "The model has higher accuracy",
+      "The model uses less memory"
+    ],
+    "correct": 0,
+    "explanation": "Calibrated model: 1000 predictions at 0.7 probability → ~700 correct. Uncalibrated model might have more/fewer.",
+    "xp": 75
+  },
+  {
+    "id": 10,
+    "section": "Learning Curves",
+    "difficulty": "medium",
+    "question": "What does a learning curve help diagnose?",
+    "options": [
+      "Bias vs variance trade-off (underfitting vs overfitting)",
+      "Data preprocessing quality",
+      "Feature importance",
+      "Hyperparameter values"
+    ],
+    "correct": 0,
+    "explanation": "Learning curve plots train/validation error vs training set size. Gap indicates overfitting; both high indicates underfitting.",
+    "xp": 100
+  },
+  {
+    "id": 11,
+    "section": "Imbalanced Data",
+    "difficulty": "hard",
+    "question": "What is the best approach to handle severely imbalanced data?",
+    "options": [
+      "Combination: class weights + stratified CV + appropriate metrics (F1, ROC AUC) + possibly SMOTE resampling",
+      "Oversample minority class until balanced",
+      "Remove minority class samples",
+      "Use accuracy as evaluation metric"
+    ],
+    "correct": 0,
+    "explanation": "No single solution. Combine: (1) class_weight='balanced', (2) stratified k-fold, (3) F1/ROC AUC metrics, (4) SMOTE if needed.",
+    "xp": 150
+  },
+  {
+    "id": 12,
+    "section": "SMOTE",
+    "difficulty": "hard",
+    "question": "How does SMOTE handle imbalanced data?",
+    "options": [
+      "Generates synthetic samples of minority class by interpolating between nearby minority samples",
+      "Randomly duplicates minority samples",
+      "Removes majority class samples",
+      "Changes the decision boundary"
+    ],
+    "correct": 0,
+    "explanation": "SMOTE (Synthetic Minority Over-sampling) creates new minority samples between existing samples. Avoid data leakage!",
+    "xp": 150
+  },
+  {
+    "id": 13,
+    "section": "Threshold Tuning",
+    "difficulty": "hard",
+    "question": "When tuning classification threshold for medical diagnosis, what should you optimize?",
+    "options": [
+      "Recall, then check precision - prioritize catching all cases even with false positives",
+      "Accuracy at any threshold",
+      "Precision above all else",
+      "The threshold that maximizes accuracy"
+    ],
+    "correct": 0,
+    "explanation": "Default threshold is 0.5, but adjust based on cost. For disease: lower threshold = higher recall (catch more) = more false alarms.",
+    "xp": 125
+  },
+  {
+    "id": 14,
+    "section": "Recursive Feature Elimination",
+    "difficulty": "hard",
+    "question": "What is an advantage of RFE (Recursive Feature Elimination)?",
+    "options": [
+      "Considers feature interactions by training multiple models with progressively fewer features",
+      "It's faster than other selection methods",
+      "It doesn't require model training",
+      "It gives identical results to correlation analysis"
+    ],
+    "correct": 0,
+    "explanation": "RFE trains model → removes least important → repeats. Captures feature interactions vs correlation (which ignores them).",
+    "xp": 125
+  },
+  {
+    "id": 15,
+    "section": "Validation Strategy",
+    "difficulty": "hard",
+    "question": "For time-series data, why is random k-fold validation problematic?",
+    "options": [
+      "It mixes future data into training (data leakage), overestimating performance on truly unseen future data",
+      "It's slower than train/test split",
+      "It uses too much memory",
+      "It requires time series specific models"
+    ],
+    "correct": 0,
+    "explanation": "Time-series requires forward chaining: train on past, validate on future sequentially. Prevents temporal data leakage.",
+    "xp": 125
+  }
+]

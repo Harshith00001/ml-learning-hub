@@ -1,0 +1,151 @@
+[
+  {
+    "id": 1,
+    "title": "Linear Regression on House Prices",
+    "difficulty": "easy",
+    "description": "Build a simple linear regression model to predict house prices. Load the dataset, split it, train the model, and report the R² score.",
+    "starter_code": "from sklearn.datasets import fetch_openml\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LinearRegression\nfrom sklearn.metrics import r2_score, mean_absolute_error\n\nX, y = fetch_openml('house_prices', version=1, as_frame=True, return_X_y=True)\nX_numeric = X.select_dtypes(include=['number']).fillna(X.select_dtypes(include=['number']).mean())\nX_train, X_test, y_train, y_test = train_test_split(X_numeric, y, test_size=0.2, random_state=42)\n\n# TODO: Train model\n# TODO: Print R² and MAE",
+    "solution": "from sklearn.datasets import fetch_openml\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LinearRegression\nfrom sklearn.metrics import r2_score, mean_absolute_error\n\nX, y = fetch_openml('house_prices', version=1, as_frame=True, return_X_y=True)\nX_numeric = X.select_dtypes(include=['number']).fillna(X.select_dtypes(include=['number']).mean())\nX_train, X_test, y_train, y_test = train_test_split(X_numeric, y, test_size=0.2, random_state=42)\n\nmodel = LinearRegression()\nmodel.fit(X_train, y_train)\ny_pred = model.predict(X_test)\n\nprint(f'R² Score: {r2_score(y_test, y_pred):.4f}')\nprint(f'MAE: ${mean_absolute_error(y_test, y_pred):.2f}')",
+    "hints": [
+      "Use LinearRegression from sklearn.linear_model",
+      "Call model.fit(X_train, y_train) to train",
+      "Use model.predict(X_test) to get predictions",
+      "r2_score and mean_absolute_error are in sklearn.metrics"
+    ],
+    "xp": 75
+  },
+  {
+    "id": 2,
+    "title": "Logistic Regression for Binary Classification",
+    "difficulty": "easy",
+    "description": "Build a logistic regression classifier on the iris dataset (binary: setosa vs others). Report accuracy.",
+    "starter_code": "from sklearn.datasets import load_iris\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import accuracy_score, confusion_matrix\n\niris = load_iris()\nX, y = iris.data, iris.target\ny_binary = (y == 0).astype(int)\nX_train, X_test, y_train, y_test = train_test_split(X, y_binary, test_size=0.2, random_state=42)\n\n# TODO: Train LogisticRegression\n# TODO: Print accuracy and confusion matrix",
+    "solution": "from sklearn.datasets import load_iris\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import accuracy_score, confusion_matrix\n\niris = load_iris()\nX, y = iris.data, iris.target\ny_binary = (y == 0).astype(int)\nX_train, X_test, y_train, y_test = train_test_split(X, y_binary, test_size=0.2, random_state=42)\n\nmodel = LogisticRegression(max_iter=200)\nmodel.fit(X_train, y_train)\ny_pred = model.predict(X_test)\n\naccuracy = accuracy_score(y_test, y_pred)\ncm = confusion_matrix(y_test, y_pred)\nprint(f'Accuracy: {accuracy:.4f}')\nprint(f'Confusion Matrix:\\n{cm}')",
+    "hints": [
+      "Use LogisticRegression with max_iter=200",
+      "Binary classification: (y == 0).astype(int)",
+      "confusion_matrix returns [[TN, FP], [FN, TP]]"
+    ],
+    "xp": 100
+  },
+  {
+    "id": 3,
+    "title": "Ridge vs Lasso Regression Comparison",
+    "difficulty": "medium",
+    "description": "Compare Ridge and Lasso regression on house prices. Train both, and compare R² scores.",
+    "starter_code": "from sklearn.datasets import fetch_openml\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import Ridge, Lasso\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.metrics import r2_score\n\nX, y = fetch_openml('house_prices', version=1, as_frame=True, return_X_y=True)\nX_numeric = X.select_dtypes(include=['number']).fillna(X.select_dtypes(include=['number']).mean())\nX_train, X_test, y_train, y_test = train_test_split(X_numeric, y, test_size=0.2, random_state=42)\n\nscaler = StandardScaler()\nX_train_scaled = scaler.fit_transform(X_train)\nX_test_scaled = scaler.transform(X_test)\n\n# TODO: Train Ridge and Lasso\n# TODO: Compare R² scores",
+    "solution": "from sklearn.datasets import fetch_openml\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import Ridge, Lasso\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.metrics import r2_score\nimport numpy as np\n\nX, y = fetch_openml('house_prices', version=1, as_frame=True, return_X_y=True)\nX_numeric = X.select_dtypes(include=['number']).fillna(X.select_dtypes(include=['number']).mean())\nX_train, X_test, y_train, y_test = train_test_split(X_numeric, y, test_size=0.2, random_state=42)\n\nscaler = StandardScaler()\nX_train_scaled = scaler.fit_transform(X_train)\nX_test_scaled = scaler.transform(X_test)\n\nridge = Ridge(alpha=1.0)\nridge.fit(X_train_scaled, y_train)\nridge_r2 = r2_score(y_test, ridge.predict(X_test_scaled))\n\nlasso = Lasso(alpha=0.1, max_iter=1000)\nlasso.fit(X_train_scaled, y_train)\nlasso_r2 = r2_score(y_test, lasso.predict(X_test_scaled))\n\nprint(f'Ridge R²: {ridge_r2:.4f}')\nprint(f'Lasso R²: {lasso_r2:.4f}')\nprint(f'Ridge non-zero coefs: {np.sum(ridge.coef_ != 0)}')\nprint(f'Lasso non-zero coefs: {np.sum(lasso.coef_ != 0)}')",
+    "hints": [
+      "Always scale features before Ridge/Lasso",
+      "Ridge: alpha=1.0, Lasso: alpha smaller (e.g., 0.1)",
+      "Lasso coefficients may have exact zeros",
+      "Compare number of non-zero coefficients"
+    ],
+    "xp": 125
+  },
+  {
+    "id": 4,
+    "title": "Random Forest Feature Importance",
+    "difficulty": "medium",
+    "description": "Train a Random Forest on iris and display the top 3 most important features.",
+    "starter_code": "from sklearn.datasets import load_iris\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.ensemble import RandomForestClassifier\nimport numpy as np\n\niris = load_iris()\nX, y = iris.data, iris.target\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\n\n# TODO: Train RandomForestClassifier\n# TODO: Get feature importances\n# TODO: Print top 3 features",
+    "solution": "from sklearn.datasets import load_iris\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.ensemble import RandomForestClassifier\nimport numpy as np\n\niris = load_iris()\nX, y = iris.data, iris.target\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\n\nmodel = RandomForestClassifier(n_estimators=100, random_state=42)\nmodel.fit(X_train, y_train)\n\nimportances = model.feature_importances_\nindices = np.argsort(importances)[::-1][:3]\n\nfor i, idx in enumerate(indices, 1):\n    print(f'{i}. {iris.feature_names[idx]}: {importances[idx]:.4f}')\n\nprint(f'\\nAccuracy: {model.score(X_test, y_test):.4f}')",
+    "hints": [
+      "Use RandomForestClassifier(n_estimators=100)",
+      "model.feature_importances_ gives scores",
+      "Use np.argsort()[::-1] for descending order",
+      "iris.feature_names has feature names"
+    ],
+    "xp": 125
+  },
+  {
+    "id": 5,
+    "title": "Classification Metrics: Precision, Recall, F1",
+    "difficulty": "medium",
+    "description": "Build a classifier on breast cancer data and report precision, recall, and F1-score.",
+    "starter_code": "from sklearn.datasets import load_breast_cancer\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.ensemble import RandomForestClassifier\nfrom sklearn.metrics import precision_score, recall_score, f1_score, classification_report\n\nX, y = load_breast_cancer(return_X_y=True)\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\n\n# TODO: Train classifier\n# TODO: Print precision, recall, F1\n# TODO: Print classification_report",
+    "solution": "from sklearn.datasets import load_breast_cancer\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.ensemble import RandomForestClassifier\nfrom sklearn.metrics import precision_score, recall_score, f1_score, classification_report\n\nX, y = load_breast_cancer(return_X_y=True)\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\n\nmodel = RandomForestClassifier(n_estimators=100, random_state=42)\nmodel.fit(X_train, y_train)\ny_pred = model.predict(X_test)\n\nprecision = precision_score(y_test, y_pred)\nrecall = recall_score(y_test, y_pred)\nf1 = f1_score(y_test, y_pred)\nprint(f'Precision: {precision:.4f}')\nprint(f'Recall: {recall:.4f}')\nprint(f'F1-Score: {f1:.4f}')\nprint('\\nDetailed Report:')\nprint(classification_report(y_test, y_pred))",
+    "hints": [
+      "Use RandomForestClassifier for robust predictions",
+      "precision_score, recall_score, f1_score in metrics",
+      "classification_report gives detailed breakdown",
+      "These metrics are important for evaluation"
+    ],
+    "xp": 100
+  },
+  {
+    "id": 6,
+    "title": "SVM with Different Kernels",
+    "difficulty": "medium",
+    "description": "Compare SVM with linear and RBF kernels on iris. Scale features, train both, compare accuracies.",
+    "starter_code": "from sklearn.datasets import load_iris\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.svm import SVC\nfrom sklearn.preprocessing import StandardScaler\n\niris = load_iris()\nX, y = iris.data, iris.target\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\n\nscaler = StandardScaler()\nX_train_scaled = scaler.fit_transform(X_train)\nX_test_scaled = scaler.transform(X_test)\n\n# TODO: Train SVC with kernel='linear'\n# TODO: Train SVC with kernel='rbf'\n# TODO: Compare accuracies",
+    "solution": "from sklearn.datasets import load_iris\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.svm import SVC\nfrom sklearn.preprocessing import StandardScaler\n\niris = load_iris()\nX, y = iris.data, iris.target\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\n\nscaler = StandardScaler()\nX_train_scaled = scaler.fit_transform(X_train)\nX_test_scaled = scaler.transform(X_test)\n\nsvm_linear = SVC(kernel='linear', C=1.0)\nsvm_linear.fit(X_train_scaled, y_train)\nlinear_acc = svm_linear.score(X_test_scaled, y_test)\n\nsvm_rbf = SVC(kernel='rbf', C=1.0, gamma='scale')\nsvm_rbf.fit(X_train_scaled, y_train)\nrbf_acc = svm_rbf.score(X_test_scaled, y_test)\n\nprint(f'Linear SVM Accuracy: {linear_acc:.4f}')\nprint(f'RBF SVM Accuracy: {rbf_acc:.4f}')",
+    "hints": [
+      "Always scale features before SVM",
+      "kernel='linear' for linear boundary",
+      "kernel='rbf' for non-linear boundary",
+      "gamma='scale' is default for RBF"
+    ],
+    "xp": 125
+  },
+  {
+    "id": 7,
+    "title": "Confusion Matrix and ROC Curve",
+    "difficulty": "medium",
+    "description": "Build a binary classifier, create confusion matrix and ROC curve visualization.",
+    "starter_code": "from sklearn.datasets import load_breast_cancer\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.ensemble import RandomForestClassifier\nfrom sklearn.metrics import confusion_matrix, roc_curve, auc\nimport matplotlib.pyplot as plt\n\nX, y = load_breast_cancer(return_X_y=True)\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\n\n# TODO: Train classifier\n# TODO: Get predictions\n# TODO: Calculate ROC curve\n# TODO: Plot ROC curve",
+    "solution": "from sklearn.datasets import load_breast_cancer\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.ensemble import RandomForestClassifier\nfrom sklearn.metrics import confusion_matrix, roc_curve, auc\nimport matplotlib.pyplot as plt\n\nX, y = load_breast_cancer(return_X_y=True)\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\n\nmodel = RandomForestClassifier(n_estimators=100, random_state=42)\nmodel.fit(X_train, y_train)\n\ny_pred = model.predict(X_test)\ny_pred_proba = model.predict_proba(X_test)[:, 1]\n\ncm = confusion_matrix(y_test, y_pred)\nprint(f'Confusion Matrix:\\n{cm}')\n\nfpr, tpr, _ = roc_curve(y_test, y_pred_proba)\nroc_auc = auc(fpr, tpr)\nprint(f'ROC AUC: {roc_auc:.4f}')\n\nplt.figure(figsize=(8, 6))\nplt.plot(fpr, tpr, label=f'ROC (AUC={roc_auc:.3f})')\nplt.plot([0, 1], [0, 1], 'k--', label='Random')\nplt.xlabel('False Positive Rate')\nplt.ylabel('True Positive Rate')\nplt.legend()\nplt.show()",
+    "hints": [
+      "predict_proba returns probabilities",
+      "confusion_matrix shows TP, TN, FP, FN",
+      "roc_curve returns fpr, tpr, thresholds",
+      "AUC is the area under the ROC curve"
+    ],
+    "xp": 150
+  },
+  {
+    "id": 8,
+    "title": "Cross-Validation Evaluation",
+    "difficulty": "medium",
+    "description": "Use cross-validation to evaluate a classifier on multiple metrics.",
+    "starter_code": "from sklearn.datasets import load_breast_cancer\nfrom sklearn.ensemble import RandomForestClassifier\nfrom sklearn.model_selection import cross_validate, StratifiedKFold\n\nX, y = load_breast_cancer(return_X_y=True)\ncv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)\n\nscoring = {\n    'accuracy': 'accuracy',\n    'precision': 'precision',\n    'recall': 'recall',\n    'f1': 'f1'\n}\n\n# TODO: Use cross_validate\n# TODO: Print results for each metric",
+    "solution": "from sklearn.datasets import load_breast_cancer\nfrom sklearn.ensemble import RandomForestClassifier\nfrom sklearn.model_selection import cross_validate, StratifiedKFold\n\nX, y = load_breast_cancer(return_X_y=True)\ncv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)\n\nscoring = {\n    'accuracy': 'accuracy',\n    'precision': 'precision',\n    'recall': 'recall',\n    'f1': 'f1'\n}\n\nmodel = RandomForestClassifier(n_estimators=100, random_state=42)\nresults = cross_validate(model, X, y, cv=cv, scoring=scoring)\n\nfor metric in ['accuracy', 'precision', 'recall', 'f1']:\n    scores = results[f'test_{metric}']\n    print(f'{metric.capitalize()}: {scores.mean():.4f} (+/- {scores.std():.4f})')",
+    "hints": [
+      "StratifiedKFold for stratified CV",
+      "cross_validate returns results per fold",
+      "Metric results prefixed with 'test_'",
+      "Report mean and standard deviation"
+    ],
+    "xp": 125
+  },
+  {
+    "id": 9,
+    "title": "Voting Classifier Ensemble",
+    "difficulty": "hard",
+    "description": "Create a voting classifier combining LR, RF, and SVM. Compare individual and ensemble scores.",
+    "starter_code": "from sklearn.datasets import load_breast_cancer\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.ensemble import RandomForestClassifier, VotingClassifier\nfrom sklearn.svm import SVC\nfrom sklearn.preprocessing import StandardScaler\n\nX, y = load_breast_cancer(return_X_y=True)\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\n\nscaler = StandardScaler()\nX_train = scaler.fit_transform(X_train)\nX_test = scaler.transform(X_test)\n\n# TODO: Create base estimators\n# TODO: Create VotingClassifier with soft voting\n# TODO: Compare scores",
+    "solution": "from sklearn.datasets import load_breast_cancer\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.ensemble import RandomForestClassifier, VotingClassifier\nfrom sklearn.svm import SVC\nfrom sklearn.preprocessing import StandardScaler\n\nX, y = load_breast_cancer(return_X_y=True)\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\n\nscaler = StandardScaler()\nX_train = scaler.fit_transform(X_train)\nX_test = scaler.transform(X_test)\n\nlr = LogisticRegression(max_iter=200)\nrf = RandomForestClassifier(n_estimators=100, random_state=42)\nsvm = SVC(kernel='rbf', probability=True)\n\nprint('Individual Models:')\nfor name, model in [('LR', lr), ('RF', rf), ('SVM', svm)]:\n    model.fit(X_train, y_train)\n    print(f'{name}: {model.score(X_test, y_test):.4f}')\n\nvoting = VotingClassifier(\n    estimators=[('lr', lr), ('rf', rf), ('svm', svm)],\n    voting='soft'\n)\nvoting.fit(X_train, y_train)\nprint(f'\\nVoting Ensemble: {voting.score(X_test, y_test):.4f}')",
+    "hints": [
+      "VotingClassifier needs probability=True",
+      "Soft voting averages probabilities",
+      "Hard voting uses majority vote",
+      "Ensemble often beats individual models"
+    ],
+    "xp": 200
+  },
+  {
+    "id": 10,
+    "title": "GridSearchCV with Gradient Boosting",
+    "difficulty": "hard",
+    "description": "Use GridSearchCV to tune Gradient Boosting hyperparameters.",
+    "starter_code": "from sklearn.datasets import load_breast_cancer\nfrom sklearn.model_selection import train_test_split, GridSearchCV\nfrom sklearn.ensemble import GradientBoostingClassifier\n\nX, y = load_breast_cancer(return_X_y=True)\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\n\nparam_grid = {\n    'n_estimators': [50, 100],\n    'learning_rate': [0.01, 0.1],\n    'max_depth': [3, 5, 7]\n}\n\n# TODO: Create GridSearchCV\n# TODO: Fit and print best parameters\n# TODO: Print test score",
+    "solution": "from sklearn.datasets import load_breast_cancer\nfrom sklearn.model_selection import train_test_split, GridSearchCV\nfrom sklearn.ensemble import GradientBoostingClassifier\n\nX, y = load_breast_cancer(return_X_y=True)\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\n\nparam_grid = {\n    'n_estimators': [50, 100],\n    'learning_rate': [0.01, 0.1],\n    'max_depth': [3, 5, 7]\n}\n\ngbc = GradientBoostingClassifier(random_state=42)\ngrid_search = GridSearchCV(gbc, param_grid, cv=5, n_jobs=-1, verbose=1)\ngrid_search.fit(X_train, y_train)\n\nprint(f'Best parameters: {grid_search.best_params_}')\nprint(f'Best CV score: {grid_search.best_score_:.4f}')\nprint(f'Test set score: {grid_search.score(X_test, y_test):.4f}')",
+    "hints": [
+      "GridSearchCV tests all combinations",
+      "cv=5 uses 5-fold cross-validation",
+      "n_jobs=-1 uses parallel processing",
+      "Compare CV score to test score (overfitting?)"
+    ],
+    "xp": 200
+  }
+]

@@ -1,0 +1,227 @@
+[
+  {
+    "id": "p2_q1",
+    "section": "pandas",
+    "difficulty": "easy",
+    "question": "What does df.head() return?",
+    "options": [
+      "The first row of the DataFrame",
+      "The first 5 rows of the DataFrame",
+      "The column names",
+      "The data types of each column"
+    ],
+    "correct": "The first 5 rows of the DataFrame",
+    "explanation": "df.head() returns the first 5 rows by default. You can specify a different number: df.head(10)",
+    "xp": 50
+  },
+  {
+    "id": "p2_q2",
+    "section": "pandas",
+    "difficulty": "easy",
+    "question": "How do you select a single column in pandas?",
+    "options": [
+      "df.column_name[] (with brackets)",
+      "df['column_name']",
+      "df.get_column('column_name')",
+      "df.column_name.select()"
+    ],
+    "correct": "df['column_name']",
+    "explanation": "Use square brackets df['column_name'] to select a column. This returns a Series object.",
+    "xp": 50
+  },
+  {
+    "id": "p2_q3",
+    "section": "pandas",
+    "difficulty": "medium",
+    "question": "What does df[df['age'] > 30] do?",
+    "options": [
+      "Selects rows where age is greater than 30",
+      "Deletes rows where age is greater than 30",
+      "Creates a new column called 'age > 30'",
+      "Filters columns older than 30"
+    ],
+    "correct": "Selects rows where age is greater than 30",
+    "explanation": "This is boolean indexing. df['age'] > 30 creates a boolean Series, then df[...] selects rows where the condition is True.",
+    "xp": 75
+  },
+  {
+    "id": "p2_q4",
+    "section": "pandas",
+    "difficulty": "medium",
+    "question": "How do you handle missing values in pandas?",
+    "options": [
+      "df.remove_nulls()",
+      "df.dropna() or df.fillna(value)",
+      "df.clear_missing()",
+      "df.nulls_delete()"
+    ],
+    "correct": "df.dropna() or df.fillna(value)",
+    "explanation": "Use dropna() to remove rows with missing values, or fillna() to replace them with a value (e.g., mean, median).",
+    "xp": 75
+  },
+  {
+    "id": "p2_q5",
+    "section": "pandas",
+    "difficulty": "hard",
+    "question": "What does df.groupby('category')['value'].mean() compute?",
+    "options": [
+      "The mean of all values",
+      "The mean value for each category",
+      "The total count of categories",
+      "The median of categories"
+    ],
+    "correct": "The mean value for each category",
+    "explanation": "groupby() groups data by a column, then applying .mean() computes the mean for each group.",
+    "xp": 100
+  },
+  {
+    "id": "p2_q6",
+    "section": "NumPy",
+    "difficulty": "easy",
+    "question": "What is an advantage of NumPy arrays over Python lists?",
+    "options": [
+      "NumPy uses less memory",
+      "NumPy is 50-100x faster due to vectorization",
+      "NumPy supports more data types",
+      "All of the above"
+    ],
+    "correct": "NumPy is 50-100x faster due to vectorization",
+    "explanation": "NumPy operations are vectorized (written in C) and operate on entire arrays at once, making them much faster than Python loops.",
+    "xp": 50
+  },
+  {
+    "id": "p2_q7",
+    "section": "NumPy",
+    "difficulty": "medium",
+    "question": "What does broadcasting mean in NumPy?",
+    "options": [
+      "Sending arrays over a network",
+      "Automatically expanding arrays to matching shapes for element-wise operations",
+      "Copying array data",
+      "Converting data types"
+    ],
+    "correct": "Automatically expanding arrays to matching shapes for element-wise operations",
+    "explanation": "Broadcasting allows NumPy to perform operations on arrays of different shapes by automatically expanding smaller arrays.",
+    "xp": 75
+  },
+  {
+    "id": "p2_q8",
+    "section": "NumPy",
+    "difficulty": "easy",
+    "question": "How do you create a NumPy array of zeros with shape (3, 4)?",
+    "options": [
+      "np.zeros(3, 4)",
+      "np.zeros((3, 4))",
+      "np.create_zeros(3, 4)",
+      "np.array([[0]*4]*3)"
+    ],
+    "correct": "np.zeros((3, 4))",
+    "explanation": "Use np.zeros((rows, cols)) to create a matrix of zeros. Note the double parentheses for the shape tuple.",
+    "xp": 50
+  },
+  {
+    "id": "p2_q9",
+    "section": "Visualization",
+    "difficulty": "easy",
+    "question": "Which library is used for basic plotting in Python?",
+    "options": [
+      "seaborn",
+      "matplotlib",
+      "plotly",
+      "bokeh"
+    ],
+    "correct": "matplotlib",
+    "explanation": "matplotlib is the fundamental Python plotting library. seaborn is built on top of matplotlib for statistical plots.",
+    "xp": 50
+  },
+  {
+    "id": "p2_q10",
+    "section": "Visualization",
+    "difficulty": "medium",
+    "question": "What is the main purpose of seaborn?",
+    "options": [
+      "Create 3D plots",
+      "Create statistical visualizations with attractive defaults",
+      "Replace matplotlib entirely",
+      "Work with geographic data"
+    ],
+    "correct": "Create statistical visualizations with attractive defaults",
+    "explanation": "seaborn is built on matplotlib and focuses on statistical data visualization with nice color schemes and themes.",
+    "xp": 75
+  },
+  {
+    "id": "p2_q11",
+    "section": "Visualization",
+    "difficulty": "medium",
+    "question": "How do you create a heatmap of correlation matrix in seaborn?",
+    "options": [
+      "sns.heatmap(df)",
+      "sns.heatmap(df.corr(), annot=True)",
+      "sns.correlation_plot(df)",
+      "plt.heatmap(df.corr())"
+    ],
+    "correct": "sns.heatmap(df.corr(), annot=True)",
+    "explanation": "Use sns.heatmap() with df.corr() to show correlations. annot=True displays values in cells.",
+    "xp": 75
+  },
+  {
+    "id": "p2_q12",
+    "section": "EDA",
+    "difficulty": "easy",
+    "question": "What does df.describe() show?",
+    "options": [
+      "Column names and types",
+      "First 5 rows",
+      "Statistical summary (mean, std, min, max, quartiles)",
+      "Missing value counts"
+    ],
+    "correct": "Statistical summary (mean, std, min, max, quartiles)",
+    "explanation": "df.describe() provides count, mean, std, min, 25%, 50%, 75%, max for numeric columns.",
+    "xp": 50
+  },
+  {
+    "id": "p2_q13",
+    "section": "EDA",
+    "difficulty": "medium",
+    "question": "What's the best method for detecting outliers?",
+    "options": [
+      "Visual inspection only",
+      "IQR method (Q1 - 1.5*IQR, Q3 + 1.5*IQR) or z-score (|z| > 3)",
+      "Deleting all rows with extreme values",
+      "Ignoring them in the model"
+    ],
+    "correct": "IQR method (Q1 - 1.5*IQR, Q3 + 1.5*IQR) or z-score (|z| > 3)",
+    "explanation": "IQR and z-score are statistical methods. Visualizations help validate findings.",
+    "xp": 100
+  },
+  {
+    "id": "p2_q14",
+    "section": "Data Cleaning",
+    "difficulty": "medium",
+    "question": "When should you use .fillna() instead of .dropna()?",
+    "options": [
+      "When you want to remove rows with any missing value",
+      "When the column has a small number of missing values and you want to impute them",
+      "When missing values are random",
+      "Never use fillna()"
+    ],
+    "correct": "When the column has a small number of missing values and you want to impute them",
+    "explanation": "dropna() removes rows/columns; fillna() replaces missing values with something (mean, median, forward fill).",
+    "xp": 75
+  },
+  {
+    "id": "p2_q15",
+    "section": "Integration",
+    "difficulty": "hard",
+    "question": "In a typical EDA workflow, what is the correct order?",
+    "options": [
+      "Build model → Explore data → Clean data",
+      "Load data → Explore → Clean → Visualize → Feature engineer",
+      "Clean data → Load data → Explore",
+      "Visualize → Build model → Clean data"
+    ],
+    "correct": "Load data → Explore → Clean → Visualize → Feature engineer",
+    "explanation": "Start by loading and exploring (df.info(), df.describe()), then clean (missing, outliers), visualize patterns, and engineer features.",
+    "xp": 125
+  }
+]

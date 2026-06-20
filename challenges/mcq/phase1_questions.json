@@ -1,0 +1,94 @@
+{
+  "phase1_fundamentals": [
+    {
+      "id": 1,
+      "section": "1.1: What is Machine Learning?",
+      "difficulty": "Easy",
+      "question": "What is Machine Learning?",
+      "options": [
+        "A) A computer program that can learn from data without being explicitly programmed",
+        "B) A type of programming language",
+        "C) A hardware component in computers",
+        "D) An operating system"
+      ],
+      "correct": "A",
+      "explanation": "Machine Learning is a subset of AI that allows systems to learn and improve from experience without explicit programming.",
+      "xp": 50
+    },
+    {
+      "id": 2,
+      "section": "1.1: What is Machine Learning?",
+      "difficulty": "Easy",
+      "question": "Which of the following is NOT a type of Machine Learning?",
+      "options": [
+        "A) Supervised Learning",
+        "B) Unsupervised Learning",
+        "C) Reinforcement Learning",
+        "D) Quantum Learning"
+      ],
+      "correct": "D",
+      "explanation": "There are three main types of ML: Supervised, Unsupervised, and Reinforcement Learning.",
+      "xp": 50
+    },
+    {
+      "id": 3,
+      "section": "1.2: Supervised vs Unsupervised Learning",
+      "difficulty": "Easy",
+      "question": "In Supervised Learning, what do we need?",
+      "options": [
+        "A) Only input features (X)",
+        "B) Input features (X) and labeled outputs (y)",
+        "C) Only output labels (y)",
+        "D) No data at all"
+      ],
+      "correct": "B",
+      "explanation": "Supervised learning requires labeled data - both features and their corresponding target values.",
+      "xp": 50
+    },
+    {
+      "id": 4,
+      "section": "1.2: Supervised vs Unsupervised Learning",
+      "difficulty": "Medium",
+      "question": "Which task is an example of Unsupervised Learning?",
+      "options": [
+        "A) Predicting house prices",
+        "B) Classifying emails as spam or not spam",
+        "C) Grouping customers by purchasing behavior",
+        "D) Identifying handwritten digits"
+      ],
+      "correct": "C",
+      "explanation": "Unsupervised learning finds patterns in unlabeled data. Grouping customers is a clustering task.",
+      "xp": 75
+    },
+    {
+      "id": 5,
+      "section": "1.3: Key Concepts",
+      "difficulty": "Medium",
+      "question": "What does 'overfitting' mean in Machine Learning?",
+      "options": [
+        "A) The model is too simple",
+        "B) The model memorizes training data but fails on new data",
+        "C) The model needs more data",
+        "D) The model is underfitting"
+      ],
+      "correct": "B",
+      "explanation": "Overfitting occurs when a model learns training data too well including its noise/quirks, resulting in poor generalization.",
+      "xp": 100
+    },
+    {
+      "id": 6,
+      "section": "1.3: Key Concepts",
+      "difficulty": "Medium",
+      "question": "What is the purpose of Train-Test Split?",
+      "options": [
+        "A) To make the code run faster",
+        "B) To evaluate model performance on unseen data",
+        "C) To increase model accuracy",
+        "D) To reduce data storage"
+      ],
+      "correct": "B",
+      "explanation": "Train-test split separates data to train the model on training set and evaluate it on unseen test set.",
+      "xp": 100
+    }
+  ]
+}

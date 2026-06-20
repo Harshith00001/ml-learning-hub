@@ -1,0 +1,154 @@
+{
+  "phase9_deep_learning_overview": [
+    {
+      "id": 1,
+      "section": "9.1",
+      "difficulty": "Easy",
+      "question": "Which library is commonly used for deep learning to build neural networks?",
+      "options": [
+        "A) scikit-learn",
+        "B) pandas",
+        "C) TensorFlow",
+        "D) seaborn"
+      ],
+      "correct": "C",
+      "explanation": "TensorFlow (and PyTorch) are commonly used for deep learning.",
+      "xp": 50
+    },
+    {
+      "id": 2,
+      "section": "9.1",
+      "difficulty": "Medium",
+      "question": "When is deep learning usually a better choice than scikit-learn?",
+      "options": [
+        "A) For small tabular datasets",
+        "B) For unstructured data like images or text",
+        "C) To make models more interpretable",
+        "D) When you only need linear regression"
+      ],
+      "correct": "B",
+      "explanation": "Deep learning is typically more effective for unstructured data such as images, text, or audio.",
+      "xp": 75
+    },
+    {
+      "id": 3,
+      "section": "9.1",
+      "difficulty": "Medium",
+      "question": "Which model is a lightweight neural network option inside scikit-learn?",
+      "options": [
+        "A) MLPClassifier",
+        "B) SVC",
+        "C) KMeans",
+        "D) Ridge"
+      ],
+      "correct": "A",
+      "explanation": "MLPClassifier is a simple neural network estimator available within scikit-learn.",
+      "xp": 75
+    },
+    {
+      "id": 4,
+      "section": "9.2",
+      "difficulty": "Medium",
+      "question": "What does transfer learning typically allow you to do?",
+      "options": [
+        "A) Train a model without any data",
+        "B) Reuse pretrained model features for a new task",
+        "C) Automatically tune hyperparameters",
+        "D) Convert a model into a Pipeline"
+      ],
+      "correct": "B",
+      "explanation": "Transfer learning reuses pretrained models or feature extractors for a new task to save time and data.",
+      "xp": 100
+    },
+    {
+      "id": 5,
+      "section": "9.2",
+      "difficulty": "Hard",
+      "question": "What does setting include_top=False do when loading a pretrained model?",
+      "options": [
+        "A) It includes the final classification head",
+        "B) It removes the pretrained weights",
+        "C) It excludes the model's top classification layers",
+        "D) It forces the model to use only CPU"
+      ],
+      "correct": "C",
+      "explanation": "include_top=False removes the final classification layers so the model can be reused as a feature extractor.",
+      "xp": 100
+    },
+    {
+      "id": 6,
+      "section": "9.3",
+      "difficulty": "Medium",
+      "question": "What is the primary benefit of early stopping in deep learning?",
+      "options": [
+        "A) Prevent overfitting by stopping training when validation loss stops improving",
+        "B) Increase model accuracy on training data",
+        "C) Automatically choose the best optimizer",
+        "D) Freeze pretrained layers"
+      ],
+      "correct": "A",
+      "explanation": "Early stopping halts training when the validation performance stops improving, helping to prevent overfitting.",
+      "xp": 100
+    },
+    {
+      "id": 7,
+      "section": "9.3",
+      "difficulty": "Hard",
+      "question": "Which metric is best for evaluating imbalanced classification in deep learning?",
+      "options": [
+        "A) Accuracy",
+        "B) F1-score",
+        "C) Sum of squared errors",
+        "D) Number of parameters"
+      ],
+      "correct": "B",
+      "explanation": "F1-score balances precision and recall, making it useful for imbalanced classification.",
+      "xp": 100
+    },
+    {
+      "id": 8,
+      "section": "9.2",
+      "difficulty": "Medium",
+      "question": "What is a main benefit of using a pretrained model for vision tasks?",
+      "options": [
+        "A) It always requires less compute than training from scratch",
+        "B) It provides rich feature representations learned from large datasets",
+        "C) It removes the need for validation data",
+        "D) It guarantees perfect accuracy"
+      ],
+      "correct": "B",
+      "explanation": "Pretrained models provide feature representations learned from large datasets, helping new tasks generalize better.",
+      "xp": 75
+    },
+    {
+      "id": 9,
+      "section": "9.3",
+      "difficulty": "Medium",
+      "question": "Why should you monitor both training and validation loss?",
+      "options": [
+        "A) To detect overfitting and underfitting",
+        "B) To choose the largest batch size",
+        "C) To reduce the number of epochs",
+        "D) To determine the feature importance"
+      ],
+      "correct": "A",
+      "explanation": "Comparing training and validation loss helps detect overfitting or underfitting during model training.",
+      "xp": 100
+    },
+    {
+      "id": 10,
+      "section": "9.1",
+      "difficulty": "Hard",
+      "question": "Which framework is best known for flexible custom training loops?",
+      "options": [
+        "A) scikit-learn",
+        "B) TensorFlow/Keras",
+        "C) PyTorch",
+        "D) pandas"
+      ],
+      "correct": "C",
+      "explanation": "PyTorch is known for flexible custom training loops and dynamic graph execution, making it popular for research and advanced models.",
+      "xp": 100
+    }
+  ]
+}

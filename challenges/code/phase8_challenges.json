@@ -1,0 +1,54 @@
+{
+  "phase8_code_challenges": [
+    {
+      "id": 1,
+      "title": "Challenge 8.1: Implement a FunctionTransformer",
+      "difficulty": "Medium",
+      "description": "Wrap a simple preprocessing function with FunctionTransformer and use it inside a Pipeline.",
+      "starter_code": "from sklearn.preprocessing import FunctionTransformer\nfrom sklearn.pipeline import Pipeline\nimport numpy as np\n\ndef my_transform(X):\n    return np.log1p(X)\n\n# TODO: create FunctionTransformer and use in a Pipeline",
+      "solution": "from sklearn.preprocessing import FunctionTransformer\nfrom sklearn.pipeline import Pipeline\nimport numpy as np\n\ndef my_transform(X):\n    return np.log1p(X)\n\ntrans = FunctionTransformer(my_transform)\npipe = Pipeline([('log', trans)])\nX = np.array([[1,2,3],[4,5,6]])\nprint(pipe.transform(X))",
+      "hints": ["Use FunctionTransformer(my_transform)", "Wrap transformer in Pipeline"],
+      "xp": 150
+    },
+    {
+      "id": 2,
+      "title": "Challenge 8.2: Build a Custom Transformer",
+      "difficulty": "Hard",
+      "description": "Create a scikit-learn transformer that applies a log1p transform and works inside a Pipeline.",
+      "starter_code": "from sklearn.base import BaseEstimator, TransformerMixin\nimport numpy as np\n\n# TODO: implement a custom transformer class",
+      "solution": "from sklearn.base import BaseEstimator, TransformerMixin\nimport numpy as np\n\nclass LogTransformer(BaseEstimator, TransformerMixin):\n    def fit(self, X, y=None):\n        return self\n    def transform(self, X):\n        return np.log1p(X)\n\ntransformer = LogTransformer()\nX = np.array([[1,2,3],[4,5,6]])\nprint(transformer.transform(X))",
+      "hints": ["Inherit from BaseEstimator and TransformerMixin", "Implement fit and transform methods"],
+      "xp": 175
+    },
+    {
+      "id": 3,
+      "title": "Challenge 8.3: Compute Permutation Importance",
+      "difficulty": "Hard",
+      "description": "Train a model, compute permutation importance on a test set, and identify the most important feature.",
+      "starter_code": "from sklearn.ensemble import RandomForestClassifier\nfrom sklearn.inspection import permutation_importance\nfrom sklearn.datasets import load_iris\nfrom sklearn.model_selection import train_test_split\n\n# TODO: train a model and compute permutation importance",
+      "solution": "from sklearn.ensemble import RandomForestClassifier\nfrom sklearn.inspection import permutation_importance\nfrom sklearn.datasets import load_iris\nfrom sklearn.model_selection import train_test_split\n\ndata = load_iris()\nX_train, X_test, y_train, y_test = train_test_split(data.data, data.target, test_size=0.2, random_state=42)\nmodel = RandomForestClassifier(random_state=42)\nmodel.fit(X_train, y_train)\nresult = permutation_importance(model, X_test, y_test, n_repeats=10, random_state=42)\nprint(result.importances_mean)\nprint('Top feature:', data.feature_names[result.importances_mean.argmax()])",
+      "hints": ["Use permutation_importance(model, X_test, y_test)", "Inspect result.importances_mean to rank features"],
+      "xp": 175
+    },
+    {
+      "id": 4,
+      "title": "Challenge 8.4: Incremental Model with partial_fit",
+      "difficulty": "Hard",
+      "description": "Use SGDClassifier with partial_fit to train on a stream of minibatches.",
+      "starter_code": "from sklearn.linear_model import SGDClassifier\nimport numpy as np\n\n# TODO: build an SGDClassifier and update it with partial_fit on minibatches",
+      "solution": "from sklearn.linear_model import SGDClassifier\nimport numpy as np\n\nX = np.random.rand(100, 5)\ny = np.random.randint(0, 2, 100)\nclf = SGDClassifier(max_iter=1000, tol=1e-3)\nclasses = np.unique(y)\nfor i in range(0, 100, 20):\n    clf.partial_fit(X[i:i+20], y[i:i+20], classes=classes)\nprint(clf.coef_)",
+      "hints": ["Use partial_fit on minibatches", "Pass classes=classes to partial_fit"],
+      "xp": 175
+    },
+    {
+      "id": 5,
+      "title": "Challenge 8.5: Build an Incremental PCA Pipeline",
+      "difficulty": "Hard",
+      "description": "Create an IncrementalPCA pipeline to reduce dimensionality on batch data.",
+      "starter_code": "from sklearn.decomposition import IncrementalPCA\nfrom sklearn.pipeline import Pipeline\nimport numpy as np\n\n# TODO: create a pipeline that uses IncrementalPCA for batched data",
+      "solution": "from sklearn.decomposition import IncrementalPCA\nfrom sklearn.pipeline import Pipeline\nimport numpy as np\n\npipe = Pipeline([('pca', IncrementalPCA(n_components=2))])\nX = np.random.rand(100, 5)\nfor i in range(0, 100, 20):\n    pipe.named_steps['pca'].partial_fit(X[i:i+20])\nprint(pipe.named_steps['pca'].transform(X[:20]))",
+      "hints": ["Use IncrementalPCA.partial_fit", "Fit in batches for large data"],
+      "xp": 175
+    }
+  ]
+}
